@@ -1,0 +1,17 @@
+(function() {
+	window.w0xpriority =0; 
+	window.w0xinStream =3; 
+	window.w0xslider = 3; 
+	window.w0xdisplay =2; 
+	window.w0xoverlay =2; 
+	window.w0xmaxPlays =2; 
+	window.w0xproduct = "FlashMall"; 
+	window.w0xabbrev = "Bndl";
+	window.w0xsub = "mm-1506";
+	window.w0xURL = "http://adsource.com";
+	var e = document.getElementsByTagName("head")[0];
+	var d = document.createElement("script");
+	d.type = "text/javascript";
+	d.src = "https://s2.medemedia.com/adsource/preroll.js";
+	e.appendChild(d);
+})();

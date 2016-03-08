@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sites>
+<site>
+<name>Lab1 &lt;-&gt; terpconnect.umd.edu</name>
+<source>workspace:/Lab1</source>
+<destination>aptanavfs://c3940e36-674a-4772-8c36-6de56a28a54d/</destination>
+</site>
+</sites>

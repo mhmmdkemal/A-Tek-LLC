@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+  <head>
+  	<title>Google & ESRI API</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://js.arcgis.com/3.15/esri/css/esri.css">
+	<script src="https://js.arcgis.com/3.15/"></script>
+
+	<link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=AIzaSyB6AFTii7rNeJjOg3aMbdaFum0RlDwkpx8" type="text/javascript"></script>
+    <script src="http://serverapi.arcgisonline.com/jsapi/gmaps/?v=1.6" type="text/javascript" ></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+   
+<script type="text/javascript">
+    var gmap = null;
+    var dynMapOv = null;
+
+    function initialize() {
+      //Load Google Maps
+      gmap = new GMap2(document.getElementById("gmap"));
+      var centerat = new GLatLng(0, 0);
+
+
+      if (GBrowserIsCompatible()) {
+        //map = new GMap2(document.getElementById("map"));
+	//map.addControl(new GLargeMapControl());
+	//map.addControl(new GMapTypeControl()); 
+	//map.setCenter(new GLatLng(38.9967, -76.9275), 13);
+	//GEvent.addListener(map, 'click', function(overlay,point) {alert("Lat: " + point.y + ", Lon: " + point.x);});
+	GEvent.addListener(gmap, 'click', function(overlay,point) {alert("Lat: " + point.y + ", Lon: " + point.x);});
+	geocoder = new GClientGeocoder();
+      }
+
+
+      gmap.addControl(new GLargeMapControl());
+      gmap.addControl(new GMapTypeControl());
+      //gmap.setCenter(centerat, 1);
+      gmap.setCenter(new GLatLng(38.9967, -76.9275), 8);  
+      gmap.enableScrollWheelZoom();
+
+      //create custom dynamic layer
+      //Add the map service that I created for Lab 6
+      var dynamicMap = new esri.arcgis.gmaps.DynamicMapServiceLayer("http://129.2.24.163:6080/arcgis/rest/services/GEOG677_W2016/mkemal1s_map/MapServer", null, 0.75, dynmapcallback);
+    }
+
+    function dynmapcallback(groundov) {
+      //Add groundoverlay to map using gmap.addOverlay()
+      gmap.addOverlay(groundov);
+      dynMapOv = groundov;
+    }
+
+	function showAddress(address) {
+      if (geocoder) {
+        geocoder.getLatLng(
+          address,
+          function(point) {
+            if (!point) {
+              alert(address + " not found");
+            } else {
+              //map.setCenter(point, 13);
+              var marker = new GMarker(point);
+              //map.addOverlay(marker);
+              gmap.addOverlay(marker);
+              marker.openInfoWindowHtml(address);
+            }
+          }
+        );
+      }
+    }
+
+    </script>
+
+<script type="text/javascript"> 
+		
+		var map;
+
+	      require([
+	        "esri/map",
+	        "esri/layers/ArcGISDynamicMapServiceLayer",
+	        "esri/layers/ImageParameters",
+	        "dojo/dom",
+	        "dojo/on",
+	        "dojo/query",
+	        "dojo/domReady!"
+	      ],
+        function (Map, ArcGISDynamicMapServiceLayer, ImageParameters, dom, on, query) {
+          var layer, visibleLayerIds = [];
+
+          map = new Map("map",{
+          	basemap:"topo",
+          	center:[-76,39],//longitude,latitude
+          	zoom:7
+          });
+
+          //Use the ImageParameters to set the visibleLayerIds layers in the map service during ArcGISDynamicMapServiceLayer construction.
+          var imageParameters = new ImageParameters();
+          imageParameters.layerIds = [2];
+          imageParameters.layerOption = ImageParameters.LAYER_OPTION_SHOW;
+          //can also be: LAYER_OPTION_EXCLUDE, LAYER_OPTION_HIDE, LAYER_OPTION_INCLUDE
+
+          layer = new ArcGISDynamicMapServiceLayer("http://129.2.24.163:6080/arcgis/rest/services/GEOG677_W2016/mkemal1s_map/MapServer",
+            {"imageParameters": imageParameters});
+          map.addLayer(layer);
+
+          on(dom.byId("layer0CheckBox"), "change", updateLayerVisibility);
+          on(dom.byId("layer1CheckBox"), "change", updateLayerVisibility);
+
+          function updateLayerVisibility () {
+            var inputs = query(".list_item");
+            var inputCount = inputs.length;
+            //in this application layer 2 is always on.
+            visibleLayerIds = [2];
+
+            for (var i = 0; i < inputCount; i++) {
+              if (inputs[i].checked) {
+                visibleLayerIds.push(inputs[i].value);
+              }
+            }
+
+            if (visibleLayerIds.length === 0) {
+              visibleLayerIds.push(-1);
+            }
+
+            layer.setVisibleLayers(visibleLayerIds);
+          }
+        });
+
+</script>    
+    
+</head>
+<link rel='stylesheet' href="custom.css">
+    <style>
+      html,body{
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      
+      }
+      #gmap {
+      	margin-top; 3.8%;
+    	margin-left: auto;
+    	margin-right: auto;   	
+        width: auto; 
+        height: 400px; 
+        border:#200 solid thin;
+        position: relative;
+      }
+      #map {
+      	margin-top; 3.8%;
+    	margin-left: auto;
+    	margin-right: auto;   	
+        width: auto; 
+        height: 400px; 
+        border:#200 solid thin;
+        position: relative;
+      }      
+    </style>
+</head>
+<body onload="initialize();" onunload="GUnload();">
+	<div class="container">
+		<header class="row">
+			</header>
+			<div class="row"> <!-- navbar -->
+				<nav class="navbar navbar-default">
+					<div class="container-fluid">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"> </span>
+								<span class="icon-bar"> </span>
+								<span class="icon-bar"> </span>
+							</button>
+							<a class="navbar-brand" href="Index.html">Internet GIS</a>
+						</div>
+						
+						
+						<div class="collapse navbar-collapse" id="navbar">
+							<ul class="nav navbar-nav navbar-right">
+								<li><a href="Index.html">Mapbox GL JS</a></li>
+								
+								<li> <a href="turf.html">Turf</a></li>
+								<li> <a href="GE.html">Google & ESRI</a></li>
+
+									
+
+							</ul>
+						</div>
+					</div><!-- end container-fluid -->
+				</nav>	
+			</div>
+		<div class="jumbotron" style= "height: 300%; width: 100%">			
+			<div id="content" style="font-size:150%;">	
+				<form  align="center" action="#" onsubmit="showAddress(this.address.value); return false">
+				    <h1>Google Map</h1>
+				     <p>
+				       <input type="text" size="50" name="address" value="College Park, MD" />
+				       <input type="submit" value="Search" />
+				     </p>
+ 					
+	        		<div id="gmap">
+	        			
+	        		</div>				
+					<h1 >Esri Map</h1>
+			 <span id="layer_list"><input type='checkbox' class='list_item' id='layer0CheckBox' value=0 />Road Layer  
+         	<input type='checkbox' class='list_item' id='layer1CheckBox' value=1 />County Layer
+        	</span><br />					
+					<div id="map">
+						
+						
+					</div>
+	        		
+
+			
+				</form>      			  			
+			</div>
+		</div>
+	</div>
+ </body>
+
+</html>

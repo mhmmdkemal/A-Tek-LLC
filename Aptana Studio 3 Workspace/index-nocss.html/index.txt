@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <header>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>New Web Project</title>
+        <head>
+			<style>
+			  body {background-color:grey}
+			  h1   {color:lightblue}
+			  p    {color:darkgreen}
+			</style>
+		</head>
+    </header>
+	<head>
+	<style>
+	/* unvisited link */
+	a:link {
+	    color: #FF0000;
+	}
+	
+	/* visited link */
+	a:visited {
+	    color: #00FF00;
+	}
+	
+	/* mouse over link */
+	a:hover {
+	    color: #FF00FF;
+	}
+	
+	/* selected link */
+	a:active {
+	    color: #0000FF;
+	}
+	</style>
+	</head>
+	<body> 
+<body>  
+    <div id="wrapper">  
+        <header>  
+        	<body>
+				<h1><font color="red"><i>Mohammed Kemal!</i></font></h1> 
+	 				<img src="https://lh3.googleusercontent.com/-Zdxs3ofGp2E/AAAAAAAAAAI/AAAAAAAAAWc/ANklXTRqHxQ/photo.jpg" alt="" style="width:256px;height:254px">, 
+			</body>             
+	                    <body>
+	                    	<h1>About Me</h1>
+	                    		<p>
+	           						</span><span class="firstLetter">M</span><span>y name is Mohammed Kemal </span>
+	           					</p>
+	                    		<p></span><span class="firstLetter"><b><font size="14">I</font></b></span><span> am interested in doing research on sustainable agriculture with a focus in Africa. This is
+essentially the topic of study that would be used for my PHD dissertation. As we all know, much
+of the citizens in the independent countries of Africa sustain themselves through agricultural
+means. What does this mean to me? Well, I want to help people all over the world but I want to
+focus on Africa. This brings the question ”How can I best help these people?” This comes down
+to what will make a great impact on their lives; this led me to focus on agriculture and how to
+make it flourish while making it more sustainable.</span> </p>
+						</body> 
+	                    <body>
+	                    	<h1>List of Classes</h1>
+		 						<h5><a href="http://www.geog.umd.edu/graduate/mps-courses">GEOG656: Database</a></h5>
+								<h5><a href="http://www.geog.umd.edu/graduate/mps-courses">GEOG657: Web Programming</a></h5>
+	                    	<h1>Favorite Things</h1>
+	                    		<p>Books: Majic Tree House, Spongebob, and Spider Man. Songs: Spongebob Theme Song</p>
+	                    	<h1> FAvorite Moview</h1>
+	                    		<p><a href="http://www.imdb.com/title/tt2126355/?ref_=hm_hp_cap_pri_1">San Andreas (IMDB) </a> <font face="verdana"> Directed By: Antonio </font></p>	           
+	                    		<p><a href="http://www.imdb.com/title/tt1851040/?ref_=hm_hp_cap_pri_2">Powers (IMDB)</a> Directed By: Chris.</p>
+	                    		<p><a href="http://www.imdb.com/title/tt1964418/?ref_=hm_hp_cap_pri_3">Tomorrowland (IMDB)</a> Directed By: Robert.</p>
+	                    	
+	                    	<h1>Places To Visit</h1>
+		 						<h3>Ethiopia</h3>
+		 						<img src="http://www.ezilon.com/maps/images/africa/Ethiopia-physical-map.gif" style="width:304px;height:228px">
+								<h3>Kenya</h3>
+		 						<img src="http://www.kenzantours.se/imagebank/upload/709/ProfilKenya1.jpg" style="width:304px;height:228px">
+	                    	<h1>Favorite Food</h1>							
+							<dl>
+								<dt> <font color="black"><i>Coffee</i></font></dt>
+								<dd>Black hot drink</dd>
+								<dt><font color="white"><i>Milk</i></font></dt>
+								<dd>White cold drink</dd>
+							</dl>	                    	
+	                    	<h1>Favorite Quote</h1>
+	                    		<p><font color="purple">"The media's the most powerful entity on earth. They have the power to make the innocent guilty and to make the guilty innocent, and that's power. Because they control the minds of the masses" MAlcolm X".</font></p>	            
+
+						</body> 																	
+        </header>  
+          
+        <div id="core" class="clearfix">  
+            <section id="left">  
+                <p>some content here.</p>  
+            </section>  
+              
+            <section id="right">  
+            	<font face="verdana">This is the only place i have changed the fonts</font>
+                <p>Some more content here!</p>  
+            </section>  
+        </div>  
+          
+        <footer>  
+            <p><strong>You have come to the end of my page. I hope you enjoyed it</strong>.</p>  
+        </footer>  
+    </div>  
+</body>   
+</html>

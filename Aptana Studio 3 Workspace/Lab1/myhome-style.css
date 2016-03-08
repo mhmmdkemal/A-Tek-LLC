@@ -1,0 +1,59 @@
+body {
+    background-image: url("http://fc07.deviantart.net/fs70/f/2013/174/3/e/recycled_texture_background_by_sandeep_m-d6aeau9.jpg");
+}
+<header>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Mohammed Kemal</title>
+    <head>
+    	<style>
+    		body {background-color:grey}
+			h1   {color:blue}
+			p    {color:green}
+		</style>
+	</head>
+</header>
+<head>
+<style>
+/* unvisited link */
+</style>
+</head>
+<body>
+h1 {
+    font-size: 30px;
+}
+h2 {
+    font-size: 20px;
+}
+p {
+    font-size: 16px;
+}
+#navcontainer ul
+{
+margin: 10;
+padding: 0;
+list-style-type: none;
+}
+
+#navcontainer a
+{
+display: block;
+color: #FFF;
+background-color: red;
+width: 9em;
+padding: 3px 12px 3px 8px;
+text-decoration: none;
+border-bottom: 1px solid #fff;
+font-weight: bold;
+}
+
+#navcontainer a:hover
+{
+background-color: #369;
+color: #FFF;
+}
+a
+{text-decoration:none}
+a
+:hover{text-decoration:underline}
+p
+:first-letter{font-size: 350%}

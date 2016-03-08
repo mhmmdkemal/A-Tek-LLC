@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Earthquakes Map: Last month</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.11.4/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.11.4/mapbox-gl.css' rel='stylesheet' />
+	<link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<link rel='stylesheet' href="custom.css">
+
+    <style>
+		#map{
+		    width:100%;
+		    height:60%;
+		    padding:0px;
+		    border:2px solid gray;
+		}
+    </style>
+</head>
+
+
+<body>
+	<div class="container">
+		<header class="row">
+			</header>
+			<div class="row"> <!-- navbar -->
+				<nav class="navbar navbar-default">
+					<div class="container-fluid">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"> </span>
+								<span class="icon-bar"> </span>
+								<span class="icon-bar"> </span>
+							</button>
+							<a class="navbar-brand" href="index.html">Internet GIS</a>
+						</div>
+						
+						
+						<div class="collapse navbar-collapse" id="navbar">
+							<ul class="nav navbar-nav navbar-right">
+								<li><a href="index.html">Mapbox GL JS</a></li>
+								
+								<li> <a href="turf.html">Turf</a></li>	
+
+							</ul>
+						</div>
+					</div><!-- end container-fluid -->
+				</nav>			
+</div>
+<div class="jumbotron" style= "height: 100%; width: 100%">
+  <h1>TESTING</h1>
+  <div id='map'></div>
+		<script>
+		mapboxgl.accessToken = 'pk.eyJ1IjoibWhtbWRrZW1hbCIsImEiOiJjaWo2bnV6dnEwMDlrdXlrcnJ3MzEyNG84In0.ajuSqxpmN-mu5J8zpj3yag';
+		var map = new mapboxgl.Map({
+		  container: 'map',
+		  style: 'mapbox://styles/mapbox/streets-v8',
+		  center: [-120,37.8],
+		  zoom: 6
+		});
+		
+		map.on('style.load', function() {
+		   map.addSource("quakes", {
+		       "type": "geojson",
+		       "data": "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson"
+		   });
+		
+		   // Once you have a datasource defined, you need to add a layer from that data source to the map.
+		   // We could, for example, add only earthquakes magnitude 4.0+. Here we just tell it
+		   // to take all of the data and style it as a circle.
+		   map.addLayer({
+		     "id": "quakes", // An id for this layer
+		     "type": "circle", // As a point layer, we need style a symbol for each point.
+		     "source": "quakes", // The source layer we defined above
+		     "paint": {
+		         "circle-radius": 5,
+		         "circle-color": "#CC99FF"
+		     }
+		   });
+		
+			map.addLayer({
+			    "id": "quakes-0",
+			    "type": "circle",
+			    "source": "quakes",
+			    "filter": ["all", [">=", "mag", 0], ["<", "mag", 1]],
+			    "paint": {
+			        "circle-radius": 10,
+			        "circle-color": "#0000FF",
+			        "circle-opacity": {
+			            "stops": [[6, 0.5], [7,0.4]] // Gives us interpolated values between 0.2 and 0.8
+			        }
+			    }
+			 });
+			var mags = [0,1,2,3,4,5,6,7,8,9,10];
+			for(var i=0; i < mags.length; i++) {
+			  var mag = mags[i];
+			  map.addLayer({
+			    "id": "quakes-"+mag,
+			    "type": "circle",
+			    "source": "quakes",
+			    "filter": ["all", [">=", "mag", mag], ["<", "mag", mag+1]],
+			    "paint": {
+			        "circle-radius": Math.pow(mag,2)/1.5,
+			        "circle-color": "#FFFFCC",
+			        "circle-opacity": 0.5
+			    }
+			  });
+			}
+			
+		 
+		});
+		</script>
+  </div>
+</body>
+
+
+
+
+
+
+<html>
+<head>
+<meta charset=utf-8 />
+<title>Turf.js Map</title>
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+<script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css' rel='stylesheet' />
+<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v1.3.0/turf.min.js'></script>
+
+<link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+
+ <link rel='stylesheet' href="custom.css">
+
+    <style>
+		#map{
+		    width:100%;
+		    height:60%;
+		    padding:0px;
+		    border:2px solid gray;
+		}
+    </style>
+</head>
+<body>
+	<div class="container">
+		<header class="row">
+			</header>
+			<div class="row"> <!-- navbar -->
+				<nav class="navbar navbar-default">
+					<div class="container-fluid">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"> </span>
+								<span class="icon-bar"> </span>
+								<span class="icon-bar"> </span>
+							</button>
+							<a class="navbar-brand" href="index.html">Internet GIS</a>
+						</div>
+						
+						
+						<div class="collapse navbar-collapse" id="navbar">
+							<ul class="nav navbar-nav navbar-right">
+								<li><a href="index.html">Mapbox GL JS</a></li>
+								
+								<li> <a href="turf.html">Turf</a></li>	
+
+							</ul>
+						</div>
+					</div><!-- end container-fluid -->
+				</nav>			
+</div>
+<div class="jumbotron" style= "height: 100%; width: 100%">
+  <h1>TESTING</h1>
+  <div id='map'></div>
+  <script>
+  L.mapbox.accessToken = 'pk.eyJ1IjoibHl6aWRpYW1vbmQiLCJhIjoiRkh4OW9layJ9.P2o48WlCqjhGmqoFJl3C_A';
+
+    var hospitals = {
+    "type": "FeatureCollection",
+    "features": [
+      { "type": "Feature", "properties": { "Name": "VA Medical Center -- Leestown Division", "Address": "2250 Leestown Rd" }, "geometry": { "type": "Point", "coordinates": [ -84.539487, 38.072916 ] } },
+      { "type": "Feature", "properties": { "Name": "St. Joseph East", "Address": "150 N Eagle Creek Dr" }, "geometry": { "type": "Point", "coordinates": [ -84.440434, 37.998757 ] } },
+      { "type": "Feature", "properties": { "Name": "Central Baptist Hospital", "Address": "1740 Nicholasville Rd" }, "geometry": { "type": "Point", "coordinates": [ -84.512283, 38.018918 ] } },
+      { "type": "Feature", "properties": { "Name": "VA Medical Center -- Cooper Dr Division", "Address": "1101 Veterans Dr" }, "geometry": { "type": "Point", "coordinates": [ -84.506483, 38.02972 ] } },
+      { "type": "Feature", "properties": { "Name": "Shriners Hospital for Children", "Address": "1900 Richmond Rd" }, "geometry": { "type": "Point", "coordinates": [ -84.472941, 38.022564 ] } },
+      { "type": "Feature", "properties": { "Name": "Eastern State Hospital", "Address": "627 W Fourth St" }, "geometry": { "type": "Point", "coordinates": [ -84.498816, 38.060791 ] } },
+      { "type": "Feature", "properties": { "Name": "Cardinal Hill Rehabilitation Hospital", "Address": "2050 Versailles Rd" }, "geometry": { "type": "Point", "coordinates": [ -84.54212, 38.046568 ] } },
+      { "type": "Feature", "properties": { "Name": "St. Joseph Hospital", "ADDRESS": "1 St Joseph Dr" }, "geometry": { "type": "Point", "coordinates": [ -84.523636, 38.032475 ] } },
+      { "type": "Feature", "properties": { "Name": "UK Healthcare Good Samaritan Hospital", "Address": "310 S Limestone" }, "geometry": { "type": "Point", "coordinates": [ -84.501222, 38.042123 ] } },
+      { "type": "Feature", "properties": { "Name": "UK Medical Center", "Address": "800 Rose St" }, "geometry": { "type": "Point", "coordinates": [ -84.508205, 38.031254 ] }
+      }
+    ]
+  };
+  var ethiopia = {
+    "type": "FeatureCollection",
+    "features": [
+      { "type": "Feature", "properties": { "Name": "Village Branch", "Address": "2185 Versailles Rd" }, "geometry": { "type": "Point", "coordinates": [ -84.548369, 38.047876 ] } },
+      { "type": "Feature", "properties": { "Name": "Northside Branch", "ADDRESS": "1733 Russell Cave Rd" }, "geometry": { "type": "Point", "coordinates": [ -84.47135, 38.079734 ] } },
+      { "type": "Feature", "properties": { "Name": "Central Library", "ADDRESS": "140 E Main St" }, "geometry": { "type": "Point", "coordinates": [ -84.496894, 38.045459 ] } },
+      { "type": "Feature", "properties": { "Name": "Beaumont Branch", "Address": "3080 Fieldstone Way" }, "geometry": { "type": "Point", "coordinates": [ -84.557948, 38.012502 ] } },
+      { "type": "Feature", "properties": { "Name": "Tates Creek Branch", "Address": "3628 Walden Dr" }, "geometry": { "type": "Point", "coordinates": [ -84.498679, 37.979598 ] } },
+      { "type": "Feature", "properties": { "Name": "Eagle Creek Branch", "Address": "101 N Eagle Creek Dr" }, "geometry": { "type": "Point", "coordinates": [ -84.442219, 37.999437 ] } }
+    ]
+  };
+
+  // Add marker color, symbol, and size to hospital GeoJSON
+  for(var i = 0; i < hospitals.features.length; i++) {
+    hospitals.features[i].properties['marker-color'] = '#DC143C';
+    hospitals.features[i].properties['marker-symbol'] = 'hospital';
+    hospitals.features[i].properties['marker-size'] = 'small';
+  };
+
+  // Add marker color, symbol, and size to library GeoJSON
+  for (var i = 0; i < ethiopia.features.length; i++) {
+    ethiopia.features[i].properties['marker-color'] = '#4169E1';
+    ethiopia.features[i].properties['marker-symbol'] = 'library';
+    ethiopia.features[i].properties['marker-size'] = 'small';
+  };
+
+  var map = L.mapbox.map('map', 'mapbox.light')
+    .setView([38.05, -84.5], 12);
+  //map.scrollWheelZoom.disable();
+
+  var hospitalLayer = L.mapbox.featureLayer(hospitals)
+    .addTo(map);
+  var ethiopiaLayer = L.mapbox.featureLayer(ethiopia)
+    .addTo(map);
+
+  map.fitBounds(ethiopiaLayer.getBounds());
+
+  // Bind a popup to each feature in hospitalLayer and ethiopiaLayer
+  hospitalLayer.eachLayer(function (layer) {
+    layer.bindPopup('<strong>' + layer.feature.properties.Name + '</strong>', { closeButton: false });
+  }).addTo(map);
+  ethiopiaLayer.eachLayer(function (layer) {
+    layer.bindPopup(layer.feature.properties.Name, { closeButton: false });
+  }).addTo(map);
+
+  // Open popups on hover
+  ethiopiaLayer.on('mouseover', function (e) {
+    e.layer.openPopup();
+  });
+  hospitalLayer.on('mouseover', function (e) {
+    e.layer.openPopup();
+  });
+
+// Reset marker size to small
+  function reset() {
+    var hospitalFeatures = hospitalLayer.getGeoJSON();
+    for (var i = 0; i < hospitalFeatures.features.length; i++) {
+      hospitalFeatures.features[i].properties['marker-size'] = 'small';
+    };
+    hospitalLayer.setGeoJSON(hospitalFeatures);
+  };
+
+  // When a library is clicked, do the following
+  ethiopiaLayer.on('click', function (e) {
+    // Reset any and all marker sizes to small
+    reset();
+    // Get the GeoJSON from libraryFeatures and hospitalFeatures
+    var libraryFeatures = ethiopiaLayer.getGeoJSON();
+    var hospitalFeatures = hospitalLayer.getGeoJSON();
+    // Using Turf, find the nearest hospital to library clicked
+    var nearestHospital = turf.nearest(e.layer.feature, hospitalFeatures);
+    // Change the nearest hospital to a large marker
+    nearestHospital.properties['marker-size'] = 'large';
+    // Add the new GeoJSON to hospitalLayer
+    hospitalLayer.setGeoJSON(hospitalFeatures);
+    // Bind popups to new hospitalLayer and open popup
+    // for nearest hospital
+    hospitalLayer.eachLayer(function (layer) {
+      layer.bindPopup('<strong>' + layer.feature.properties.Name + '</strong>', { closeButton: false });
+      if (layer.feature.properties['marker-size'] === 'large') {
+        layer.openPopup();
+      };
+    });
+  });
+
+var runLayer = omnivore.kml('/KML/PG_Hospitals_mkemal1.kml')
+    .on('ready', function() {
+        map.fitBounds(runLayer.getBounds());
+    })
+    .addTo(map);
+    
+  // When the map is clicked on anywhere, reset all
+  // hospital markers to small
+  map.on('click', function (e) {
+    reset();
+  });
+
+  </script>
+  </div>
+</body>

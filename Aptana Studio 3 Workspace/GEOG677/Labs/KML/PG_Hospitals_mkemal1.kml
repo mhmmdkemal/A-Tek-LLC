@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+  <name><![CDATA[PG_Hospitals]]></name>
+  <open>1</open>
+  <Snippet maxLines="0"><![CDATA[]]></Snippet>
+  <description><![CDATA[Exported from PG_Hospitals on 12/13/2015]]></description>
+  <Style id="FEATURES">
+    <IconStyle>
+      <color>FFFF0000</color>
+      <scale>1.5</scale>
+      <Icon>
+        <href>root://icons/palette-4.png</href>
+        <x>32</x>
+        <y>128</y>
+        <w>32</w>
+        <h>32</h>
+      </Icon>
+    </IconStyle>
+    <LabelStyle>
+      <color>00FFFFFF</color>
+    </LabelStyle>
+    <BalloonStyle>
+      <text>
+      </text>
+    </BalloonStyle>
+  </Style>
+  <Style id="FEATURES_LABELS">
+    <IconStyle>
+      <color>00000000</color>
+      <Icon>
+        <href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png</href>
+      </Icon>
+    </IconStyle>
+    <LabelStyle>
+      <color>FFFFFFFF</color>
+    </LabelStyle>
+  </Style>
+  <Folder>
+    <name>Features</name>
+    <open>0</open>
+       <Placemark>
+         <name><![CDATA[DOCTOR'S COMMUNITY HOSPITAL]]></name>
+         <Snippet maxLines="0"><![CDATA[]]></Snippet>
+         <styleUrl>#FEATURES</styleUrl>
+         <Point>
+           <extrude>0</extrude>
+           <altitudeMode>clampedToGround</altitudeMode>
+           <coordinates>
+             -76.866717,38.980088,0
+           </coordinates>
+         </Point>
+       </Placemark>
+       <Placemark>
+         <name><![CDATA[EUGENE LELAND MEM HOSP]]></name>
+         <Snippet maxLines="0"><![CDATA[]]></Snippet>
+         <styleUrl>#FEATURES</styleUrl>
+         <Point>
+           <extrude>0</extrude>
+           <altitudeMode>clampedToGround</altitudeMode>
+           <coordinates>
+             -76.941332,38.963158,0
+           </coordinates>
+         </Point>
+       </Placemark>
+       <Placemark>
+         <name><![CDATA[FT WASHINGTON MEDICAL CENTER]]></name>
+         <Snippet maxLines="0"><![CDATA[]]></Snippet>
+         <styleUrl>#FEATURES</styleUrl>
+         <Point>
+           <extrude>0</extrude>
+           <altitudeMode>clampedToGround</altitudeMode>
+           <coordinates>
+             -76.992276,38.728475,0
+           </coordinates>
+         </Point>
+       </Placemark>
+       <Placemark>
+         <name><![CDATA[GREATER LAUREL BELTSVILLE HOSP]]></name>
+         <Snippet maxLines="0"><![CDATA[]]></Snippet>
+         <styleUrl>#FEATURES</styleUrl>
+         <Point>
+           <extrude>0</extrude>
+           <altitudeMode>clampedToGround</altitudeMode>
+           <coordinates>
+             -76.883212,39.083018,0
+           </coordinates>
+         </Point>
+       </Placemark>
+       <Placemark>
+         <name><![CDATA[GREATER SOUTHEAST HOSPITAL]]></name>
+         <Snippet maxLines="0"><![CDATA[]]></Snippet>
+         <styleUrl>#FEATURES</styleUrl>
+         <Point>
+           <extrude>0</extrude>
+           <altitudeMode>clampedToGround</altitudeMode>
+           <coordinates>
+             -76.982074,38.835919,0
+           </coordinates>
+         </Point>
+       </Placemark>
+       <Placemark>
+         <name><![CDATA[PRINCE GEORGES HOSPITL CENTER]]></name>
+         <Snippet maxLines="0"><![CDATA[]]></Snippet>
+         <styleUrl>#FEATURES</styleUrl>
+         <Point>
+           <extrude>0</extrude>
+           <altitudeMode>clampedToGround</altitudeMode>
+           <coordinates>
+             -76.925321,38.928521,0
+           </coordinates>
+         </Point>
+       </Placemark>
+       <Placemark>
+         <name><![CDATA[SOUTHERN MARYLAND HOSP]]></name>
+         <Snippet maxLines="0"><![CDATA[]]></Snippet>
+         <styleUrl>#FEATURES</styleUrl>
+         <Point>
+           <extrude>0</extrude>
+           <altitudeMode>clampedToGround</altitudeMode>
+           <coordinates>
+             -76.874583,38.750396,0
+           </coordinates>
+         </Point>
+       </Placemark>
+  </Folder>
+  <Folder>
+    <name>Feature Labels (<![CDATA[NAME]]>)</name>
+    <open>0</open>
+      <Placemark>
+        <name><![CDATA[DOCTOR'S COMMUNITY HOSPITAL]]></name>
+        <styleUrl>#FEATURES_LABELS</styleUrl>
+        <Point>
+          <extrude>0</extrude>
+          <altitudeMode>clampedToGround</altitudeMode>
+          <coordinates>
+            -76.866717,38.980088,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name><![CDATA[EUGENE LELAND MEM HOSP]]></name>
+        <styleUrl>#FEATURES_LABELS</styleUrl>
+        <Point>
+          <extrude>0</extrude>
+          <altitudeMode>clampedToGround</altitudeMode>
+          <coordinates>
+            -76.941332,38.963158,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name><![CDATA[FT WASHINGTON MEDICAL CENTER]]></name>
+        <styleUrl>#FEATURES_LABELS</styleUrl>
+        <Point>
+          <extrude>0</extrude>
+          <altitudeMode>clampedToGround</altitudeMode>
+          <coordinates>
+            -76.992276,38.728475,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name><![CDATA[GREATER LAUREL BELTSVILLE HOSP]]></name>
+        <styleUrl>#FEATURES_LABELS</styleUrl>
+        <Point>
+          <extrude>0</extrude>
+          <altitudeMode>clampedToGround</altitudeMode>
+          <coordinates>
+            -76.883212,39.083018,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name><![CDATA[GREATER SOUTHEAST HOSPITAL]]></name>
+        <styleUrl>#FEATURES_LABELS</styleUrl>
+        <Point>
+          <extrude>0</extrude>
+          <altitudeMode>clampedToGround</altitudeMode>
+          <coordinates>
+            -76.982074,38.835919,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name><![CDATA[PRINCE GEORGES HOSPITL CENTER]]></name>
+        <styleUrl>#FEATURES_LABELS</styleUrl>
+        <Point>
+          <extrude>0</extrude>
+          <altitudeMode>clampedToGround</altitudeMode>
+          <coordinates>
+            -76.925321,38.928521,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name><![CDATA[SOUTHERN MARYLAND HOSP]]></name>
+        <styleUrl>#FEATURES_LABELS</styleUrl>
+        <Point>
+          <extrude>0</extrude>
+          <altitudeMode>clampedToGround</altitudeMode>
+          <coordinates>
+            -76.874583,38.750396,0
+          </coordinates>
+        </Point>
+      </Placemark>
+  </Folder>
+</Document>
+</kml>

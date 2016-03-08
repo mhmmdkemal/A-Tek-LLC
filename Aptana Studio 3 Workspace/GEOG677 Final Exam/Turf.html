@@ -1,0 +1,418 @@
+<html>
+<head>
+	<meta charset=utf-8 />
+	<title>Turf Map</title>
+	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+	<script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js'></script>
+	<link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css' rel='stylesheet' />
+	<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v1.3.0/turf.min.js'></script>
+	<link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+	<link rel='stylesheet' href="custom.css">
+
+
+
+
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+<style>
+#map {
+  pointer-events:all;
+  cursor:relative;
+  }
+#zoommap {
+  background:#73b5e5;
+  width:200px;
+  height:200px;
+  -webkit-transform:rotate(-60deg);
+     -moz-transform:rotate(-60deg);
+      -ms-transform:rotate(-60deg);
+       -o-transform:rotate(-60deg);
+          transform:rotate(-60deg);
+  }
+
+
+.overlay {
+  position:relative;
+  pointer-events:none;
+  width:200px;
+  height:200px;
+  z-index:1000;
+  }
+.rotater {
+  position:fixed;
+  -webkit-transform:rotate(30deg);
+     -moz-transform:rotate(30deg);
+      -ms-transform:rotate(30deg);
+       -o-transform:rotate(30deg);
+          transform:rotate(30deg);
+  }
+</style>
+<style>
+    #map {
+      margin-top; 3.8%;
+      margin-left: auto;
+      margin-right: auto;   	
+      width: auto; 
+      height: 400px; 
+      border:#200 solid thin;
+      position: relative;
+    }
+</style>
+
+<style>
+	.range {
+	  position:relative;
+	  width:100%;
+	  }
+	.leaflet-top .leaflet-control-zoom {
+	  top:0px;
+	  }
+</style>
+
+</head>
+<body onload="initialize();" onunload="GUnload();">
+	<div class="container">
+		<header class="row">
+			</header>
+			<div class="row"> <!-- navbar -->
+				<nav class="navbar navbar-default">
+					<div class="container-fluid">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"> </span>
+								<span class="icon-bar"> </span>
+								<span class="icon-bar"> </span>
+							</button>
+							<a class="navbar-brand" href="MapboxGL.html">Internet GIS</a>
+						</div>
+						
+						
+						<div class="collapse navbar-collapse" id="navbar">
+							<ul class="nav navbar-nav navbar-right">
+								<li><a href="MapboxGL.html">Mapbox GL JS</a></li>
+								<li> <a href="Google.html">Google API</a></li>
+								
+								<li> <a href="Turf.html">Turf</a></li>
+
+									
+
+							</ul>
+						</div>
+					</div><!-- end container-fluid -->
+				</nav>		
+						
+</div>
+
+<div class="jumbotron" style= "height: 200%; width: 100%">
+  <h3>Mapbox Turf Api</h3>
+  <p>
+	This map uses the Mapbox Turf API. Using the API, I created two sets of data - 1) hospitals and 2) states in the US. 
+	The data for this trial project is make-believe and is in a JSON format.The hospital and states have their own clickable markers that will
+	give more information about them. When clicking a place, it will automatically detect the nearest hospital and a pop-up will appear. This is especially 
+	useful in real situation such as earthquakes to determine where the earthquake took place and what the nearest hospital is. 
+  </p> 
+<p align="center">Slide Left and Right to change map Layout</p>
+<input id='range' class='range' type='range' min='0' max='1.0' step='any' />
+<div id='map'>
+ <div id='zoomlens' class='overlay'>
+    <div class='overlay rotater'>
+        <div class='overlay rotater'>
+            <div id='zoommap' class='overlay'></div>
+        </div>
+    </div>
+    <div id='border' class='overlay'></div>
+</div> 
+</div>
+  <script>
+  
+  L.mapbox.accessToken = 'pk.eyJ1IjoibWhtbWRrZW1hbCIsImEiOiJjaWo5a3hocWkwMDNsdW1seGxqem0xaHk3In0.2HkUnEninXg8jTPN7DvUCw';
+
+    var hospitals = {
+    "type": "FeatureCollection",
+    "features": [
+      { "type": "Feature", "properties": { "Name": "Primary Children's Hospital-Utah", "Address": "2250 Leestown Rd" }, "geometry": { "type": "Point", "coordinates": [ -111.5, 39.5 ] } },
+      { "type": "Feature", "properties": { "Name": "Arkansas Children's Hospital", "Address": "150 N Eagle Creek Dr" }, "geometry": { "type": "Point", "coordinates": [ -92, 35] } },
+      { "type": "Feature", "properties": { "Name": "Central Baptist Hospital", "Address": "1740 Nicholasville Rd" }, "geometry": { "type": "Point", "coordinates": [ -78.512283, 38.018918 ] } },
+      { "type": "Feature", "properties": { "Name": "VA Medical Center -- Cooper Dr Division", "Address": "1101 Veterans Dr" }, "geometry": { "type": "Point", "coordinates": [ -94.506483, 43.02972 ] } },
+      { "type": "Feature", "properties": { "Name": "Shriners Hospital for Children", "Address": "1900 Richmond Rd" }, "geometry": { "type": "Point", "coordinates": [ -90, 38.022564 ] } },
+      { "type": "Feature", "properties": { "Name": "Eastern State Hospital", "Address": "627 W Fourth St" }, "geometry": { "type": "Point", "coordinates": [ -100.498816, 38.060791 ] } },
+      { "type": "Feature", "properties": { "Name": "Cardinal Hill Rehabilitation Hospital", "Address": "2050 Versailles Rd" }, "geometry": { "type": "Point", "coordinates": [ -84.54212, 38.046568 ] } },
+      { "type": "Feature", "properties": { "Name": "St. Joseph Hospital", "ADDRESS": "1 St Joseph Dr" }, "geometry": { "type": "Point", "coordinates": [ -103.523636, 41.032475 ] } },
+      { "type": "Feature", "properties": { "Name": "UK Healthcare Good Samaritan Hospital", "Address": "310 S Limestone" }, "geometry": { "type": "Point", "coordinates": [ -86.501222, 37.042123 ] } },
+      { "type": "Feature", "properties": { "Name": "UK Medical Center", "Address": "800 Rose St" }, "geometry": { "type": "Point", "coordinates": [ -84.508205, 38.031254 ] }
+      }
+    ]
+  };
+  var america = {
+    "type": "FeatureCollection",
+    "features": [
+      { "type": "Feature", "properties": { "Name": "Ethiopia", "Address": "2185 Versailles Rd" }, "geometry": { "type": "Point", "coordinates": [ -120, 37 ] } },
+      { "type": "Feature", "properties": { "Name": "Iwoa", "ADDRESS": "1733 Russell Cave Rd" }, "geometry": { "type": "Point", "coordinates": [ -93, 42 ] } },
+      { "type": "Feature", "properties": { "Name": "Montana", "ADDRESS": "140 E Main St" }, "geometry": { "type": "Point", "coordinates": [ -110, 47 ] } },
+      { "type": "Feature", "properties": { "Name": "Florida", "Address": "3080 Fieldstone Way" }, "geometry": { "type": "Point", "coordinates": [ -85, 30 ] } },
+      { "type": "Feature", "properties": { "Name": "Oklahoma", "Address": "3628 Walden Dr" }, "geometry": { "type": "Point", "coordinates": [ -98, 35.5 ] } },
+      { "type": "Feature", "properties": { "Name": "Nebraska", "Address": "101 N Eagle Creek Dr" }, "geometry": { "type": "Point", "coordinates": [ -98, 41 ] } }
+    ]
+  };
+
+  // Add marker color, symbol, and size to hospital GeoJSON
+  for(var i = 0; i < hospitals.features.length; i++) {
+    hospitals.features[i].properties['marker-color'] = '#DC143C';
+    hospitals.features[i].properties['marker-symbol'] = 'hospital';
+    hospitals.features[i].properties['marker-size'] = 'small';
+  };
+
+  // Add marker color, symbol, and size to library GeoJSON
+  for (var i = 0; i < america.features.length; i++) {
+    america.features[i].properties['marker-color'] = '#4169E1';
+    america.features[i].properties['marker-symbol'] = 'library';
+    america.features[i].properties['marker-size'] = 'small';
+  };
+var bbox = [-116.52, 28.460, -101.5, 43.48];
+var bbox_poly = turf.bboxPolygon(bbox);
+bbox_poly.properties = {
+    "fill": "#6BC65F",
+    "stroke": "#6BC65F",
+    "stroke-width": 5
+};
+
+var grid = turf.grid(bbox, 5);
+
+
+grid.features.forEach(function (feature) {
+    feature.properties["marker-color"] = "#6BC65F";
+    feature.properties["marker-size"] = "small";
+});
+  var map = L.mapbox.map('map', 'morganherlocker.kgidd73k')
+    .setView([38.05, -84.5], 12);
+  //map.scrollWheelZoom.disable();
+  var hospitalLayer = L.mapbox.featureLayer(hospitals)
+    .addTo(map);
+  var americaLayer = L.mapbox.featureLayer(america)
+    .addTo(map);
+ 
+//zoom
+var zoommap = L.mapbox.map('zoommap', 'mapbox.streets', {
+    fadeAnimation: false,
+    zoomControl: false,
+    attributionControl: false
+});
+
+var zl = document.getElementById('zoomlens');
+
+//search
+
+// Call update or zoom functions when
+// these events occur.
+map.on('mousemove', update);
+map.on('zoomend', zoom);
+
+function zoom(e) {
+    if (zoommap._loaded) zoommap.setZoom(e.target.getZoom() + 1);
+}
+
+function update(e) {
+    zl.style.top = ~~e.containerPoint.y - 100 + 'px';
+    zl.style.left = ~~e.containerPoint.x - 100 + 'px';
+    zoommap.setView(e.latlng, map.getZoom() + 1, false);
+}
+
+//Map change bar 
+var overlay = L.mapbox.tileLayer('mapbox.comic').addTo(map);
+var range = document.getElementById('range');
+
+function clip() {
+  var nw = map.containerPointToLayerPoint([0, 0]),
+      se = map.containerPointToLayerPoint(map.getSize()),
+      clipX = nw.x + (se.x - nw.x) * range.value;
+
+  overlay.getContainer().style.clip = 'rect(' + [nw.y, clipX, se.y, nw.x].join('px,') + 'px)';
+}
+
+range['oninput' in range ? 'oninput' : 'onchange'] = clip;
+map.on('move', clip);
+map.setView([49.434,-123.272], 7);
+
+clip();
+
+
+//Plane 
+
+//
+	L.RotatedMarker = L.Marker.extend({
+	  options: { angle: 0 },
+	  _setPos: function(pos) {
+	    L.Marker.prototype._setPos.call(this, pos);
+	    if (L.DomUtil.TRANSFORM) {
+	      // use the CSS transform rule if available
+	      this._icon.style[L.DomUtil.TRANSFORM] += ' rotate(' + this.options.angle + 'deg)';
+	    } else if (L.Browser.ie) {
+	      // fallback for IE6, IE7, IE8
+	      var rad = this.options.angle * L.LatLng.DEG_TO_RAD,
+	      costheta = Math.cos(rad),
+	      sintheta = Math.sin(rad);
+	      this._icon.style.filter += ' progid:DXImageTransform.Microsoft.Matrix(sizingMethod=\'auto expand\', M11=' +
+	        costheta + ', M12=' + (-sintheta) + ', M21=' + sintheta + ', M22=' + costheta + ')';
+	    }
+	  }
+	});
+	L.rotatedMarker = function(pos, options) {
+	    return new L.RotatedMarker(pos, options);
+	};
+	
+	
+	var direction = 0, manual = false;
+	
+	window.setInterval(function() {
+	  var ll = marker.getLatLng();
+	  ll.lat += Math.cos(direction) / 100;
+	  ll.lng += Math.sin(direction) / 100;
+	  marker.options.angle = direction * (180 / Math.PI);
+	  marker.setLatLng(ll);
+	  if (!manual && Math.random() > 0.95) {
+	    direction += (Math.random() - 0.5) / 2;
+	  }
+	}, 10);
+	
+	// Add manual control of the airplane with left and right arrow keys, just because
+	document.body.addEventListener('keydown', function(e) {
+	  if (e.which == 37) {
+	    direction -= 0.1; manual = true;
+	  }
+	  if (e.which == 39) {
+	    direction += 0.1; manual = true;
+	  }
+	}, true);
+
+	var marker = L.rotatedMarker(new L.LatLng(37.9, -77), {
+	  icon: L.icon({
+	    iconUrl: 'https://www.mapbox.com/maki/renders/airport-24@2x.png',
+	    iconSize: [24, 24],
+	  }),
+	  draggable: true
+	});
+	
+	marker.addTo(map);   
+
+
+
+//Plane 2
+	L.RotatedMarker = L.Marker.extend({
+	  options: { angle: 0 },
+	  _setPos: function(pos) {
+	    L.Marker.prototype._setPos.call(this, pos);
+	    if (L.DomUtil.TRANSFORM) {
+	      // use the CSS transform rule if available
+	      this._icon.style[L.DomUtil.TRANSFORM] += ' rotate(' + this.options.angle + 'deg)';
+	    } else if (L.Browser.ie) {
+	      // fallback for IE6, IE7, IE8
+	      var rad = this.options.angle * L.LatLng.DEG_TO_RAD,
+	      costheta = Math.cos(rad),
+	      sintheta = Math.sin(rad);
+	      this._icon.style.filter += ' progid:DXImageTransform.Microsoft.Matrix(sizingMethod=\'auto expand\', M11=' +
+	        costheta + ', M12=' + (-sintheta) + ', M21=' + sintheta + ', M22=' + costheta + ')';
+	    }
+	  }
+	});
+	L.rotatedMarker = function(pos, options) {
+	    return new L.RotatedMarker(pos, options);
+	};
+	
+	
+	var direction = 0, manual = false;
+	
+	window.setInterval(function() {
+	  var ll = marker.getLatLng();
+	  ll.lat += Math.cos(direction) / 100;
+	  ll.lng += Math.sin(direction) / 100;
+	  marker.options.angle = direction * (90 / Math.PI);
+	  marker.setLatLng(ll);
+	  if (!manual && Math.random() > 0.95) {
+	    direction += (Math.random() - 0.5) / 2;
+	  }
+	}, 10);
+	
+	// Add manual control of the airplane with left and right arrow keys, just because
+	document.body.addEventListener('keydown', function(e) {
+	  if (e.which == 37) {
+	    direction -= 0.1; manual = true;
+	  }
+	  if (e.which == 39) {
+	    direction += 0.1; manual = true;
+	  }
+	}, true);
+
+	var marker = L.rotatedMarker(new L.LatLng(37.9, -77), {
+	  icon: L.icon({
+	    iconUrl: 'https://www.mapbox.com/maki/renders/airport-24@2x.png',
+	    iconSize: [24, 24],
+	  }),
+	  draggable: true
+	});
+	
+	marker.addTo(map);  
+	
+	 
+//Grid box
+L.mapbox.featureLayer().setGeoJSON(bbox_poly).addTo(map);
+L.mapbox.featureLayer().setGeoJSON(grid).addTo(map);
+  map.fitBounds(americaLayer.getBounds());
+
+  // Bind a popup to each feature in hospitalLayer and americaLayer
+  hospitalLayer.eachLayer(function (layer) {
+    layer.bindPopup('<strong>' + layer.feature.properties.Name + '</strong>', { closeButton: false });
+  }).addTo(map);
+  americaLayer.eachLayer(function (layer) {
+    layer.bindPopup(layer.feature.properties.Name, { closeButton: false });
+  }).addTo(map);
+
+  // Open popups on hover
+  americaLayer.on('mouseover', function (e) {
+    e.layer.openPopup();
+  });
+  hospitalLayer.on('mouseover', function (e) {
+    e.layer.openPopup();
+  });
+
+// Reset marker size to small
+  function reset() {
+    var hospitalFeatures = hospitalLayer.getGeoJSON();
+    for (var i = 0; i < hospitalFeatures.features.length; i++) {
+      hospitalFeatures.features[i].properties['marker-size'] = 'small';
+    };
+    hospitalLayer.setGeoJSON(hospitalFeatures);
+  };
+
+  // When a library is clicked, do the following
+  americaLayer.on('click', function (e) {
+    // Reset any and all marker sizes to small
+    reset();
+    // Get the GeoJSON from libraryFeatures and hospitalFeatures
+    var libraryFeatures = americaLayer.getGeoJSON();
+    var hospitalFeatures = hospitalLayer.getGeoJSON();
+    // Using Turf, find the nearest hospital to library clicked
+    var nearestHospital = turf.nearest(e.layer.feature, hospitalFeatures);
+    // Change the nearest hospital to a large marker
+    nearestHospital.properties['marker-size'] = 'large';
+    // Add the new GeoJSON to hospitalLayer
+    hospitalLayer.setGeoJSON(hospitalFeatures);
+    // Bind popups to new hospitalLayer and open popup
+    // for nearest hospital
+    hospitalLayer.eachLayer(function (layer) {
+      layer.bindPopup('<strong>' + layer.feature.properties.Name + '</strong>' +layer.feature.properties.Address + '</strong>' , { closeButton: false });
+      if (layer.feature.properties['marker-size'] === 'large') {
+        layer.openPopup();
+      };
+    });
+  });
+
+
+  </script>
+  </div>
+</body>

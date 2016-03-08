@@ -1,0 +1,51 @@
+#container {
+	width: 960px;
+	margin: 0 auto;
+}
+#header {
+	height: 180px;
+	margin: 10px 0 0 0;
+	background: url(images/patima.jpg)
+}
+#content {
+	border-right: 10px solid #C0C0C0;
+	border-left: 10px solid #C0C0C0;
+	border-bottom: 10px solid #C0C0C0;
+	padding: 50px 60px;
+}
+#pictures{
+	text-align: center;
+}
+#email{
+	width: 50px;
+    padding: 25px;
+    border: 25px solid navy;
+    margin: 25px;
+}
+#nav {
+	width: 960px;
+	overflow: hidden;
+}
+#nav a{
+	width: 240px;
+	height: 35px;
+	float: left;
+	padding: 13px 0 0 0;
+	background: url(images/nav.png);
+	color: red;
+	text-decoration: none;
+	text-align: center;
+	text-transform: uppercase;
+	font-weight: bold;
+}
+#nav a:hover{
+	background: url(images/nav_hover.png);
+	color: navy
+}
+#footer {
+    clear: both;
+    position: relative;
+    z-index: 10;
+    height: 3em;
+    margin-top: -3em;
+}

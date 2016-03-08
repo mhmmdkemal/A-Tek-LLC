@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame 
+       Remove this if you use the .htaccess -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title>Lab 7</title>
+  <meta name="description" content="">
+  <meta name="author" content="Mohammed Kemal">
+
+  <meta name="viewport" content="width=device-width; initial-scale=1.0">
+
+  <!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+  <link rel="stylesheet" href="css/mystyles.css" />
+  <link rel="stylesheet" href="css/mytheme.css" />
+  <link rel="stylesheet" href="css/jquery.mobile.structure-1.4.5.min.css" />
+  
+  <script src="js/jquery-1.11.3.min.js" ></script>
+  <script src="js/jquery.mobile-1.4.5.min.js" ></script>
+  <script src="css/jquery.mobile.structure-1.4.5.min.css" ></script>
+
+<script>
+
+			function getFacilityList(data1){
+				var jsonFileUrl;
+
+					switch(data1){
+						case 0: 
+	 						jsonFileUrl = "data/fall2015.json";
+	 						header = $('#schdHead').html('Fall 2015 Schedule');
+	 					break;	
+						case 1: 
+	 						jsonFileUrl = "data/wint2015.json"; //I had to change the file name because it wil keep showing old results
+							header = $('#schdHead').html('Winter 2015 Schedule');	 						
+	 					break;
+	 				}		
+				var items = [];
+				
+				$.getJSON( jsonFileUrl, function( data ) {
+				  $("#csh li").remove(); 
+				  //alert(data);
+        		 // var val = data[data1]				  	
+				  $.each( data, function( key, val ) {
+				    items.push( "<li id='" + key + "'>" + val + "</li>" );
+				  });
+				  $( "<ul/>", {"class": "my-new-list", html: items.join( "" )}).appendTo("#csh");
+				});  
+ 			}			
+ 						    
+</script>
+<script>
+			var total = 0;
+
+		    function test(item){
+		        if(item.checked){
+		           total+= parseInt(item.value);
+		        }else{
+		           total-= parseInt(item.value);
+		        }
+		        //alert(total);
+		        document.getElementById('Totalcost').innerHTML = total + " Credits";
+		    }
+
+		    function submittest(){
+
+		        alert(total+ " Credits");
+		        //document.getElementById('Totalcost').innerHTML = total + " Credits";
+		    }		
+			function reset(item){
+				$("#cgroup").remove(item.checked);
+			}
+
+		    
+</script>
+</head>
+
+<body>
+	<!--  Pg. 1 ==> Home Page --> 
+	<div id="homeView" data-role="page">
+		<div data-role="header" data-position="fixed" id="header1">
+			<h1>MPS GIS BUDDY</h1>
+		</div>
+		
+		<div data-role="content">	
+			<ul data-role="listview" data-inset="true">
+				<li><a href="#schdView" onclick="getFacilityList(0)" data-transition"flip">Current Courses</a></li>
+				<li><a href="#schdView" onclick="getFacilityList(1)" data-transition"flip">Future Courses</a></li>
+				<li><a href="#chckView" data-transition"slide">Course Checklist</a></li>
+			</ul>
+			<center><img src="images/jack.jpg" width="50%" alt="Dr. Ma"/></center>
+		</div>		
+	</div>
+	
+	<!--  Pg. 2/3 ==> Current Courses --> 
+	<div id="schdView" data-role="page" data-theme="a" >
+		<div data-role="header" data-position="fixed" id="header1" data-add-back-btn="true">
+			<a href="#homeView" class="ui-btn ui-icon-home ui-btn-icon-notext ui-shadow ui-corner-all">Home</a>
+			<h1 id="schdHead"></h1>			</div>			
+		<div data-position="fixed" id="header1" >		
+		</div>
+		<div data-role="content">				
+			<ul  data-role="listview" data-inset="true" >
+				<li><h3>Course -- Day of Week -- Instructor</h3></li>
+
+				<li id="csh"></li>
+			</ul>
+	
+				
+		</div>
+
+	</div>
+
+	<!--  Pg. 3 ==> Check List --> 
+	<div id="chckView" data-role="page" data-theme="a" >
+		<div data-role="header" data-position="fixed" id="header1" data-add-back-btn="true">
+			<a href="#homeView" class="ui-btn ui-icon-home ui-btn-icon-notext ui-shadow ui-corner-all">Home</a>
+			<h1> Course Checklist</h1>
+		</div>
+		<div data-role="content" >
+			<form >
+				<div class="un-filterable">
+					<fieldset data-role="controlgroup" id="cgroup" >
+						<li><h2>Course -- Number --  Credits</h2></li>
+						
+						<input type="checkbox" value="3" name="GEOG651" id="GEOG651" onClick="test(this);"><label for="GEOG651">GEOG 651: 3</label>				
+						<input type="checkbox" value="3" name="GEOG652" id="GEOG652" onClick="test(this);"><label for="GEOG652">GEOG 652: 3</label>					
+						<input type="checkbox" value="3" name="GEOG653" id="GEOG653" onClick="test(this);"><label for="GEOG653">GEOG 653: 3</label>
+						<input type="checkbox" value="3" name="GEOG656" id="GEOG656" onClick="test(this);"><label for="GEOG656">GEOG 656: 3</label>
+						<input type="checkbox" value="3" name="GEOG677" id="GEOG677" onClick="test(this);"><label for="GEOG677">GEOG 677: 3</label>
+						<input type="checkbox" value="3" name="GEOG657" id="GEOG657" onClick="test(this);"><label for="GEOG657">GEOG 657: 3</label>
+						<input type="checkbox" value="3" name="GEOG654" id="GEOG654" onClick="test(this);"><label for="GEOG654">GEOG 654: 3</label>
+						<input type="checkbox" value="3" name="GEOG655" id="GEOG655" onClick="test(this);"><label for="GEOG655">GEOG 655: 3</label>
+						<input type="checkbox" value="3" name="GEOG650" id="GEOG650" onClick="test(this);"><label for="GEOG650">GEOG 650: 3</label>
+						<input type="checkbox" value="3" name="GEOG660" id="GEOG660" onClick="test(this);"><label for="GEOG660">GEOG 660: 3</label>
+						<input type="checkbox" value="1" name="GEOG795" id="GEOG795" onClick="test(this);"><label for="GEOG795">GEOG 795: 1</label>
+						<input type="checkbox" value="3" name="GEOG796" id="GEOG796" onClick="test(this);"><label for="GEOG796">GEOG 796: 3</label>
+						<input type="checkbox" value="3" name="GEOG797" id="GEOG797" onClick="test(this);"><label for="GEOG797">GEOG 797: 3</label>
+						
+				   		<li>Currently Selected Courses: <span id="Totalcost"> </span></li>
+				   	</fieldset>		
+				</div>	
+				<fieldset class="ui-grid-a" data-position="fixed">
+					<div class="ui-block-a"><button id="reset" type="reset" onclick="reset(item);">Reset</button></div>
+					<div class="ui-block-b"><button id="submit" value="" type="submit" onclick="submittest();">Submit</button></div>
+				</fieldset>		    		    			    
+   			</form>		
+		</div>	
+
+  </div>
+</body>
+</html>

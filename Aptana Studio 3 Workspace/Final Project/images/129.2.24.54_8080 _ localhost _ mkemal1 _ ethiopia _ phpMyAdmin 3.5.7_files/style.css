@@ -1,0 +1,167 @@
+@charset "utf-8";
+/* Stripped down Yahoo's reset */
+/*html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td {padding:0;margin:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img{border:0;}li{list-style:none;}*/
+
+/* CLEARFIX */
+.clearfix {
+  *zoom: 1;
+}
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.clearfix:after {
+  clear: both;
+}
+
+
+/* GENERAL */
+
+/* WRAPPER */
+
+#admedia-offer-slider {
+	position:fixed;
+	bottom:20px;
+	left:20px;
+	width: 400px;
+	padding:3px;
+	background-color: #313941;
+	-moz-border-radius: 11px;
+	-webkit-border-radius: 11px;
+	border-radius: 11px;
+	-moz-box-shadow: 0 4px 18px rgba(0,0,0,.63);
+	-webkit-box-shadow: 0 4px 18px rgba(0,0,0,.63);
+	box-shadow: 0 4px 18px rgba(0,0,0,.63);
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:16px;
+	z-index: 10000;
+}
+
+
+/* CLOSE BUTTON */
+#admedia-offer-slider-close {
+	position:absolute;
+	top:15px;
+	right:15px;
+	display:inline-block;
+	width: 30px;
+	height: 27px;
+	padding-top:3px;
+	-moz-border-radius: 18px;
+	-webkit-border-radius: 18px;
+	border-radius: 18px;
+	background-color: #313941;
+	-moz-box-shadow: 0 3px 10px #000;
+	-webkit-box-shadow: 0 3px 10px #000;
+	box-shadow: 0 3px 10px #000;
+	border: 3px solid #f5f5f5;
+	font-size:22px;
+	text-align:center;
+	font-weight:bold;
+	color:#fff;
+	text-decoration:none;
+}
+#admedia-offer-slider-close:hover { background-color:#cc0000; }
+
+
+/* LOGO AREA */
+#admedia-offer-slider-logo-wrapper {
+	width:198px;
+	height:50px;
+	overflow:hidden;
+	margin:5px 0 8px 5px;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+}
+
+ /* NO LOGO */
+.admedia-offer-no-logo #admedia-offer-slider-header { display:none; }
+.admedia-offer-no-logo #admedia-offer-slider-content {
+-moz-border-radius: 8px;
+-webkit-border-radius: 8px;
+border-radius: 8px;
+}
+.admedia-offer-no-logo #admedia-offer-slider-close {
+top:-15px;
+right:-15px;
+
+}
+
+/* OFFERS */
+#admedia-offer-slider-content {
+	background-color:#f5f5f5;
+	-moz-border-radius: 0 0 8px 8px;
+	-webkit-border-radius: 0 0 8px 8px;
+	border-radius: 0 0 8px 8px;
+	padding:5px 5px 1px 5px;
+}
+
+/* item */
+.admedia-offer-slider-item {
+	background-color:#FFF;
+	border:1px solid #d7d7d7;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	padding:6px;
+	margin-bottom:5px;
+}
+
+/* item image */
+.admedia-offer-slider-item-image {
+	display:block;
+	float:left;
+	width:100px;
+	height:100px;
+	padding:2px;
+	border:1px solid #d7d7d7;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	-moz-box-shadow: 0 1px 8px rgba(0,0,0,.10);
+	-webkit-box-shadow: 0 1px 8px rgba(0,0,0,.10);
+	box-shadow: 0 1px 8px rgba(0,0,0,.10);
+}
+.admedia-offer-slider-item-image img {
+	width:90px;
+	height:90px;
+	margin:5px;
+}
+.admedia-offer-slider-item-image:hover img {
+	width:100px;
+	height:100px;
+	margin:0;
+}
+
+
+/* item info */
+.admedia-offer-slider-item-info { padding-left:116px; }
+.admedia-offer-slider-item-info a { text-decoration:none; }
+.admedia-offer-slider-item-title, .admedia-offer-slider-item-description, .admedia-offer-slider-item-domain { overflow:hidden; }
+.admedia-offer-slider-item-title {
+	font-size:1em;
+	line-height:1.13em;
+	font-weight:bold;
+}
+.admedia-offer-slider-item-description {
+	font-size:.9375em;
+	line-height:1.13em;
+	margin:3px 0;
+}
+.admedia-offer-slider-item-domain {
+	font-size:.875em;
+	line-height:1em;
+}
+
+/* item info links */
+.admedia-offer-slider-item-title a { color:#2d70c4; }
+.admedia-offer-slider-item-title a:hover { color:#378af1; }
+.admedia-offer-slider-item-description a { color:#444444; }
+.admedia-offer-slider-item-description a:hover { color:#444444; }
+.admedia-offer-slider-item-domain a { color:#00802A; }
+.admedia-offer-slider-item-domain a:hover { color:#00c440; }
+
+.adv {width: 170px;height: 9px;font-family: Arial, Helvetica, sans-serif;font-size: 10px;text-align:right;color: #fff;position:absolute;right: 12px;top: 49px;z-index: 999;opacity:0.3;}

@@ -1,0 +1,328 @@
+
+<!DOCTYPE HTML>
+<html>
+	<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+  	<title>Google: Earthquake</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://js.arcgis.com/3.15/esri/css/esri.css">
+	<script src="https://js.arcgis.com/3.15/"></script>
+
+	<link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=AIzaSyB6AFTii7rNeJjOg3aMbdaFum0RlDwkpx8" type="text/javascript"></script>
+    <script src="http://serverapi.arcgisonline.com/jsapi/gmaps/?v=1.6" type="text/javascript" ></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB6AFTii7rNeJjOg3aMbdaFum0RlDwkpx8"></script>	
+	<link rel='stylesheet' href="custom.css"> 
+	  			
+<!-- CSS or styling of map -->
+    	<style>
+	        #map {
+	        	height: 550px;
+	        	width:100%;
+	        	margin: 0px;
+	        	padding: 20px;
+	        	z-index: 0; 
+	        	border:1px dotted;       
+	       	}
+
+	        #MainInfoBox {
+		    	background-color: blue;
+		    	opacity: .7;
+		    	border: 3px solid black;        
+		    	padding: 2px;
+		    	position: relative;
+		    	left: 0px;
+		    	border-radius: 20px;
+		    	color:black;
+		    	z-index: 1;
+		    	font-weight: bold;
+		    	text-align: center;
+		    	margin-bottom: 10px;
+		    	margin-top: 10px;
+		    	font-size: 14px;
+			}
+
+			#SecondInfoBox {
+		    	background-color: blue;
+		    	opacity: .7;
+		    	border: 3px solid black;        
+		    	padding: 10px;
+		    	position: relative;
+		    	right: 0px;
+		    	border-radius: 20px;
+		    	color:black;
+		    	z-index: 1;
+		    	font-weight: bold;
+		    	text-align: center;
+		    	margin-bottom: 20px;
+		    	margin-top: 10px;
+		    	margin-right:10px;
+		    	font-size: 10px;
+		    	line-height: 3px;
+			}
+      
+			#legend {
+    			background: blue;
+    			border: 3px solid black;
+    			border-radius: 20px;
+    			opacity: .7;
+    			padding: 10px;
+    			font-weight: bold;
+    			line-height: 0px;
+    			margin-top:20px;
+    			color:black;
+    			text-align: center;
+    			margin-bottom: 0px;
+    			margin-left: 10px;
+    			font-size: 14px;
+       		}
+  
+
+      		#MainTitle {
+         		background: blue;
+          		padding: 10px;
+          		border: 3px solid black;
+          		margin-top: 10px;
+          		border-radius: 5px;
+          		z-index: 1;
+          		opacity: .7;
+          		font-size: 10px;
+        	}  
+
+        	#title2 {
+        		color:black;
+        		margin-bottom: 0px;
+        		font-weight: bold;
+        	}
+
+        	#details {
+        		color:black;
+        		margin-bottom: 0px;
+        		font-weight: bold;
+        		font-size: 14px;
+        	}
+            
+            #mag {
+        		color:black;
+        		margin-bottom: 10px;
+        		margin-top: 10px;
+        		font-weight: bold;
+        		font-size: 10px;
+        	}
+
+        	#MDHeader {
+    		color: blue;
+    		text-decoration: underline;
+    		font-size: 20px;
+
+			}
+
+    	</style>
+
+	    <script>
+			var map;
+			function initialize() {
+	  		map = new google.maps.Map(document.getElementById('map'), {
+	    		zoom: 3,
+	    		mapTypeControl:true,
+				mapTypeControlOptions: {
+	    		style:google.maps.MapTypeControlStyle.DROPDOWN_MENU
+			},
+	    
+	    	center: {lat: 38.05, lng: -84.5},
+	  			mapTypeId: google.maps.MapTypeId.SATELLITE
+	  		});
+	
+			var styles = [
+			  {
+			    featureType: "all",
+			    stylers: [
+			      { saturation: -80 }
+			    ]
+			  },{
+			    featureType: "road.arterial",
+			    elementType: "geometry",
+			    stylers: [
+			      { hue: "#00ffee" },
+			      { saturation: 50 }
+			    ]
+			  },{
+			    featureType: "poi.business",
+			    elementType: "labels",
+			    stylers: [
+			      { visibility: "off" }
+			    ]
+			  }
+			];
+			
+			map.setOptions({styles: styles});
+	
+	  				
+	
+			
+	  		var contentString = '<div id="content">'+
+	      '<div id="siteNotice">'+
+	      '</div>'+
+	      '<h1 id="MDHeader" class="MDHeader"><a href="http://www.umd.edu/" target="_blank">University of Maryland College Park</a></h1>'
+	      
+	      '</div>';
+	
+	
+			var infowindow = new google.maps.InfoWindow({
+	    		content: contentString
+	  		});
+	
+	  		var marker = new google.maps.Marker({
+	  	      draggable: true,
+	  		  animation: google.maps.Animation.DROP,
+	
+	          position: {lat: 38.9875, lng: -76.9400},
+	          map: map,
+	          
+	          title: 'University of Maryland College Park'
+	          });
+	  		
+	  		marker.addListener('click', toggleBounce);
+			
+			function toggleBounce() {
+			  if (marker.getAnimation() !== null) {
+			    marker.setAnimation(null);
+			  } else {
+			    marker.setAnimation(google.maps.Animation.BOUNCE);
+			  }
+			}
+	  		marker.addListener('click', function() {
+	    	infowindow.open(map, marker);
+	  		});      
+		
+	 		map.data.addListener('click', function(event) {
+	    		document.getElementById('MainInfoBox').textContent =
+	        	event.feature.getProperty("place");
+	  		});
+	
+	 		map.data.setStyle(function(feature) {
+	    		var magnitude = feature.getProperty('mag');
+	    		return {
+	      		icon: getCircle(magnitude)
+	    	};
+	  		});
+	  		
+	//this code below is the legend that gets altered into the magnitude box to show magnitude from json file, need to get all this info with text into one box perhaps.
+			map.data.addListener('click', function(event) {
+	 		document.getElementById('legend').textContent = 'Magnitude: ' + event.feature.getProperty('mag');
+	 		});
+	
+			function getCircle(magnitude) {
+	  		var circle = {
+	    		path: google.maps.SymbolPath.CIRCLE,
+	    		fillColor: 'red',
+	    		fillOpacity: .2,
+	    		scale: Math.pow(2, magnitude) / 3,
+	    		strokeColor: 'blue',
+	    		strokeWeight: .6,
+	    		strokeOpacity: .8,
+	  		};
+	  		return circle;
+			}
+	
+			//Control Positions for boxes
+			map.controls[google.maps.ControlPosition.LEFT_CENTER].push(
+	  		document.getElementById('legend'));
+			map.controls[google.maps.ControlPosition.TOP_CENTER].push(
+	        document.getElementById('MainTitle'));
+	        map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(
+	        document.getElementById('MainInfoBox'));
+	        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(
+	        document.getElementById('SecondInfoBox'));
+			
+			map.data.loadGeoJson('http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_month.geojson');
+			}
+			google.maps.event.addDomListener(window, 'load', initialize);
+	    </script>		
+	</div>  
+</head>
+
+<body >
+	<div class="container">
+		<header class="row">
+			</header>
+			<div class="row"> <!-- navbar -->
+				<nav class="navbar navbar-default">
+					<div class="container-fluid">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"> </span>
+								<span class="icon-bar"> </span>
+								<span class="icon-bar"> </span>
+							</button>
+							<a class="navbar-brand" href="MapboxGL.html">Internet GIS</a>
+						</div>
+						
+						
+						<div class="collapse navbar-collapse" id="navbar">
+							<ul class="nav navbar-nav navbar-right">
+								<li><a href="MapboxGL.html">Mapbox GL JS</a></li>
+								<li> <a href="Google.html">Google API</a></li>
+								
+								<li> <a href="Turf.html">Turf</a></li>
+
+									
+
+							</ul>
+						</div>
+					</div><!-- end container-fluid -->
+				</nav>			
+			</div>
+			</header>
+			<div class="jumbotron" style= "height: 200%; width: 100%">
+			<!-- Main -->
+				<article id="main">
+
+					<!-- One -->
+						<section class="wrapper style4 container">
+
+							<!-- Content -->
+								<div class="content">
+									<section>										
+										<div>
+											
+											<div id="map"> 
+											</div>											
+												<div id="MainInfoBox" >
+													<p id="details">Earthquake Location</p>
+												</div>
+												<div id="SecondInfoBox">
+													<p>Legend</p>
+													<img src="images/legend.png" alt="Legend">
+												</div>
+												<div id="legend">
+  													<p id="mag"></p>						
+  													<p>Click on any circle!</p>
+  													<p>Magnitude</p>
+  													
+  													
+												</div>
+												<div id="MainTitle">
+													<p id="title2">USGS Earthquake Data: Last 30 days</p>
+												</div>
+										</div>
+									</section>
+								</div>
+						</section>					
+
+			<!-- Footer -->
+
+			</div>
+			
+		</div>
+	</body>
+</html>

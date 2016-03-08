@@ -1,0 +1,44 @@
+
+<!-- saved from url=(0350)http://video.customercompany.com/?id=vslider_71295&ex=Oj47Ij86MTwmMw&nl=a&height=300&width=400&product=&mkey=1431409850860d231-e05c-c95b&ref=&enr=4t%2FKJ4xR8UIadZz4%2BPeuNgDVXBRhHQMTqCvq62txFkZPQfElF8Z24LYdHU8C%2BPwMUiy60YTk9eotnvVqkCMyOB5OcGrELKqwJOnPHiEggusEbuuzZ75d4%2F5NQ04Qt0cB&sxch=1&wrd=I6vx0bLXCoLTN%2BzsD6v5CKaNabzapnhAr0Lu0pYzdg8%3D&novol=0 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta name="test" content="ms123">
+<style>
+body {
+	margin: 0px;
+}
+</style>
+<style type="text/css"></style></head>
+<body>
+<script>
+var consoleLog = function (obj) {
+	if (typeof console != 'undefined') {
+		if(typeof console.info == 'function')
+			console.info(obj)
+	}
+}
+
+if (window.addEventListener) {
+  window.addEventListener('message', function (e) {
+    consoleLog("RM:video.::"+e.data);
+    if(window.parent && window.parent.postMessage){
+		//window.parent.postMessage(e.data,"http://usadserver.com");
+		window.parent.postMessage(e.data,"*");
+		consoleLog("FWD:video.");
+    }
+  });
+}
+else { // IE8 or earlier
+  window.attachEvent('onmessage', function (e) {
+    consoleLog("RM:video.::"+e.data);
+    if(window.parent && window.parent.postMessage){
+		//window.parent.postMessage(e.data,"http://usadserver.com");
+		window.parent.postMessage(e.data,"*");
+		consoleLog("FWD:video.");
+    }
+  });
+}
+</script>
+<iframe src="saved_resource(16).html" height="300" width="400" frameborder="0" scrolling="no"></iframe>
+
+
+</body></html>

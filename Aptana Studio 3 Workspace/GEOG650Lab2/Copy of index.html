@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+		Remove this if you use the .htaccess -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+		<title>index</title>
+		<meta name="description" content="">
+		<meta name="author" content="Mohammed Kemal">
+
+		<meta name="viewport" content="width=device-width; initial-scale=1.0">
+
+		<!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
+		<link rel="shortcut icon" href="images/bit.ico" />
+		<link rel="apple-touch-icon" href="images/va_icon1.png">
+		
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+		<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+		
+		<!-- theme -->
+		<script>
+			$( document ).on( "mobileinit", function() {
+			 
+		      $.mobile.toolbar.prototype.options.backBtnText = "Go back";
+			  $.mobile.toolbar.prototype.options.theme = "b";
+			  $.mobile.defaultPageTransition = "slide";
+
+			}); //theme ends 
+			
+		</script>
+		<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+		<script type="text/javascript"> 
+			function getFacilitySummaryByStates(typeIndex){
+				$.getJSON("data/facilitiesSummaryByStates.json", function(data){
+					
+					$("#stateList li").remove(); 
+					
+					$.each(data, function(key,val){
+						var linkButton;
+						switch(typeIndex){
+							case 0: // case for when the user clicks "Hospital"
+ 								linkButton = $("<a>").attr("href", "#choice_faci").attr("onclick", "getFacilityList(0,'" + key + "')").html(key);
+ 								linkButton.append($("<span>").attr("class","ui-li-count").html(val.CntHospitals));
+ 								break;
+							case 1: //case for when the user clicks "Outpatient Clinic"
+ 								linkButton = $("<a>").attr("href", "#choice_faci").attr("onclick", "getFacilityList(1,'" + key + "')").html(key);
+ 								linkButton.append($("<span>").attr("class","ui-li-count").html(val.CntOpclinics));
+ 								break;
+							case 2: //case for when the user clicks "Vet Center"
+ 								linkButton = $("<a>").attr("href", "#choice_faci").attr("onclick", "getFacilityList(2,'" + key + "')").html(key);
+ 								linkButton.append($("<span>").attr("class","ui-li-count").html(val.CntVetCenters));
+ 								break;
+						}//End of switch
+						
+						$("<li>").append(linkButton).appendTo("#stateList");
+					
+					}); // end of each JSON data
+					
+					$("#stateList").listview("refresh"); 
+					
+				});// End of getJSON	
+						
+			}// end of getfacilitysummarybystates
+			function getFacilityList(typeIndex, keyStateName){
+				var jsonFileUrl;
+				switch(typeIndex){
+					case 0: // case for when the user clicks "Hospital"
+ 						jsonFileUrl = "data/hospitals.json";
+ 					break;	
+					case 1: //case for when the user clicks "Outpatient Clinic"
+ 						jsonFileUrl = "data/clinics.json";
+ 					break;
+ 					case 2: //case for when the user clicks "Vet Center"		
+ 						jsonFileUrl = "data/vetCenters.json";
+ 					break;
+				}//End of switch
+						
+				$.getJSON(jsonFileUrl, function(data){
+				     
+				    $("#facilityList li").remove();
+        			var val = data[keyStateName];
+        
+        			for (i = 0; i<val.length; i++) {
+            			var linkButton = $("<a>").attr("href", "#faci_details").html(val[i].Name);
+            			
+            			linkButton.append($("<img>").attr("src",val[i].ImageUrl));
+            			$("<li>").append(linkButton).appendTo("#facilityList");
+        			}
+        			$("#facilityList").listview("refresh");	
+							
+				}); //end of get JSON
+			} //end of get facilityList		
+				
+			</script> 
+	</head>
+
+	<body>
+		<!-- Home page 1 -->
+		<div id="home" data-role="page">
+				
+			<div data-role="header">
+				<h1>VA Finder</h1>
+			</div>
+			
+			<div data-role ="content">
+				<center><img src="images/va_icon2.jpg" width="50%" alt="VA Medical Facility Finder" /></center>
+				<h2>What to find</h2>
+				<ul data-role="listview" data-inset="true">
+					<li><a href="#choice_state" onclick="getFacilitySummaryByStates(0)">Hospital</a></li>
+					<li><a href="#choice_state" onclick="getFacilitySummaryByStates(1)">Outpatient Clinic</a></li>
+					<li><a href="#choice_state" onclick="getFacilitySummaryByStates(2)">Vet Center</a></li>					
+				</ul>
+			</div>
+			
+			<div data-role="footer">
+				<p>&copy;Copyright by Kemal</p>
+			</div>	
+					
+		</div>
+		<!-- State Search PAge 2 -->
+		
+		<div id="choice_state" data-role="page">
+			<div data-role="header" data-add-back-btn ="true">
+				<h1>VA Finder</h1>
+			</div>
+			
+			<div data-role="content">
+				<h2>Where to search</h2>
+				<form class="un-filterable">
+					<input id="filter-input" data-type="search" />
+				</form>
+				<ul id="stateList" data-role="listview" data-inset="true" data-filter="true" data-input="#filter-input">
+
+				</ul>				
+			</div>
+			<div data-role="footer">
+				<p>&copy;Copyright by Kemal</p>
+			</div>			
+		</div>
+		<!-- Select A Facility Page 3 -->
+		
+		<div id="choice_faci" data-role="page">
+			<div data-role="header" data-add-back-btn ="true">
+				<h1>VA Finder</h1>
+			</div>
+			
+			<div data-role="content">
+				<h2>Select A Facility</h2>
+				<form class="un-filterable">
+					<input id="filter-input" data-type="search" />
+				</form>
+				<ul id = "facilityList" data-role="listview" data-inset="true" data-filter="true" data-input="#filter-input">
+
+				</ul>
+			<div data-role="footer">
+				<p>&copy;Copyright by Kemal</p>
+			</div>								
+		</div>	
+		</div>
+		
+		<!-- Medical Center Info Page 4 -->	
+		<div id="faci_details" data-role="page">
+			<div data-role="header" data-add-back-btn ="true">
+				<h1>VA Finder</h1>
+			</div>
+			<div class="ui-grid-a" id="faci_infos" >
+				<h2> Baltimore VA Medical Center</h2>
+				
+				<div class= "ui-block-a">
+					<p> <strong>Located in a vibrant city neighborhood on the
+						campus of the University of Maryland at Baltimore</strong></p>
+				</div>
+				
+				<div class="ui-block-b">
+					<p><img src="images/type0_Maryland_0.jpg"  alt="Medical Center Photo" width="100%" height="100%"/></p>
+					<p><a href="http://www.maryland.va.gov/facilities/Baltimore_VA_Medical_Center.asp" data-role = "button">
+					Website</a></p>
+				</div>	
+												
+
+				<p>Specialized Clinics</p>
+				<ul>
+					<li>Epilepsy Center</li>
+					<li>Geriatric Center</li>
+					<li> Mental Illness Center</li>
+				</ul>
+			</div>			
+		
+			<hr />
+			
+			<div class="ui-grid-a" id="contact_infos">
+				<div class="ui-block-a">
+					<h3>Contact Us</h3>
+					<p>10 North Greene Street <br/> Baltimore, MD 21201</p>
+				</div>
+					
+				<div class="ui-block-b">
+					<img src="images/type0_Maryland_map0.jpg" width="100%" height="100%" alt="Medical Center Map" />
+				</div>
+				
+			</div>
+			
+			<div id="contact_buttons">
+				<a href ="https://maps.google.com/maps?ie=UTF8&cid=103067031875702030&q=Baltimore+ V A+Medical+Center&iwloc=A&gl=US&hl=en" data-role="button"> Find us on Google Maps</a>
+				<a href="tel:410-605-7000" data-role="button">Call US</a>
+			</div>
+			
+			
+			<div data-role="footer">
+				<p>&copy;Copyright by Kemal</p>
+			</div>
+		</div>
+		
+
+	</body>
+</html>

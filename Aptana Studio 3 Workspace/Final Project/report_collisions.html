@@ -1,0 +1,183 @@
+<!DOCTYPE html> 
+<html>
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, intial-scale=1">
+
+<title>Report Disease Outbreak</title>
+
+<link rel='stylesheet' href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="JAVASCRIPT/custom.js"></script>
+
+<link rel='stylesheet' href="custom.css">
+</head>
+
+<body>
+	<div class="container">
+		<header class="row">
+			</header>
+				<nav class="navbar navbar-default">
+					<div class="container-fluid">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"> </span>
+								<span class="icon-bar"> </span>
+								<span class="icon-bar"> </span>
+							</button>
+							<a class="navbar-brand" href="#">Sustainability Management</a>
+						</div>
+						
+						<div>
+						
+						<div class="collapse navbar-collapse" id="navbar">
+							<ul class="nav navbar-nav navbar-right">
+								<li><a href="index.html">Home</a></li>
+								
+								<li class="dropdown">
+									<a class="dropdown-toggle" data-toggle="dropdown" href="#">Disease Outbreak
+										<span class="carat"> </span></a>
+										<ul class="dropdown-menu">
+											<li> <a href="report_collisions.html">Report Disease</a></li>
+											<li><a href="show_collision.php">Show Disease</a></li>
+											<li><a href="gelocation.html">Mapping</a></li>
+											
+										</ul>
+								</li>
+								<li class="dropdown">
+									<a class="dropdown-toggle" data-toggle="dropdown" href="#">Ethiopia
+										<span class="carat"> </span></a>
+										<ul class="dropdown-menu">
+											<li><a href="information.php">Information</a></li>
+											<li><a href="SlideShow.html">Gallery</a></li>																																	
+										</ul>
+								</li>									
+								<li><a href="contact.html">Contact</a></li>
+							</ul>
+							</div>
+						</div>
+					</div><!-- end container-fluid -->
+				</nav>			
+			<div class="row"> <!-- navbar -->
+				<div>
+					<h2>Report a Disease Outbreak</h2>
+					<div id="report" class="row">
+						<form method="post" action="insert_collision.php" enctype="multipart/form-data" class="form-horizontal">
+						<div class="form-group">
+							<label for="species" class="control-label col-sm-2">Species:</label>
+							<div class="col-sm-10">
+							<select id="species" name="species" class="form-control">
+								<option value="">Select a species</option>
+								<option value="HIV/AIDS">HIV/AIDS</option>
+								<option value="Malaria">Malaria</option>
+								<option value="Tuberculosis">Tuberculosis</option>
+								<option value="Dengue">Dengue</option>
+								<option value="Pneumonia">Pneumonia</option>
+								<option value="Cholera">Cholera</option>
+								<option value="River Blindness">River Blindness</option>
+								<option value="Diarrhea">Diarrhea</option>
+								<option value="Others">Others</option>
+							</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="txtSpecies" class="control-label col-sm-2"> </label>
+							<div class="col-sm-10">
+							<input type="text" id="txtSpecies" name="txtSpecies" class="form-control" placeholder="Type in a new species" readonly>
+							</div>
+						</div>
+							
+						<div class="form-group">
+							<label for="rpDate" class="control-label col-sm-2">Report Date:</label>
+							<div class="col-sm-10">
+							<input type="date" name="rpDate" id="rpDate" class="form-control">
+							</div>
+						</div>
+							
+						<div class="form-group">
+							<label for="location" class="control-label col-sm-2">Location:</label>
+							<div class="col-sm-10">
+							<input type="text" name="location" id="location" class="form-control" placeholder="Enter the location address of wildlife collision" />
+							</div>
+						</div>
+							
+						<div class="form-group">
+							<label for="lat" class="control-label col-sm-2">Latitude:</label> <!--lat:38.985978 Longitude: -76.942564 -->
+							<div class="col-sm-10">
+							<input type="number" name="lat" id="lat" class="form-control" placeholder="Enter the latitude of wildlife collision" min="-90" max="90" step="0.01" value="38.98" />
+							</div>
+						</div>	
+						
+						<div class="form-group">
+							<label for="lng" class="control-label col-sm-2">Longitude:</label>
+							<div class="col-sm-10">
+							<input type="number" name="lng" id="lng" class="form-control" placeholder="Enter the longitude of wildlife collision" min="-180" max="180" step="0.01" value="-78.94" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="control-label col-sm-2 col-xs-2">Gender:</label>
+							
+							<div class="btn-group col-sm-10 col-xs-10" data-toggle="buttons">
+								<label class="col-sm-2 btn btn-info active">
+									<input type="radio" name="rbGender" value="male" checked> Male
+								</label>
+							
+								<label class="col-sm-2 btn btn-info">
+									<input type="radio" name="rbGender" value="female"> Female
+								</label>
+							
+								<label class="col-sm-2 btn btn-info">
+									<input type="radio" name="rbGender" value="unknown"> Unknown
+								</label>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="control-label col-sm-2 col-xs-2">Age Class:</label>
+							
+							<div class="btn-group col-sm-10 col-xs-10" data-toggle="buttons">
+								<label class="col-sm-2 btn btn-info active">
+									<input type="radio" name="rbAge" value="juvenile" checked>Juvenile
+								</label>
+								<label class="col-sm-2 btn btn-info">
+									<input type="radio" name="rbAge" value="adult" />Adult
+								</label>
+								<label class="col-sm-2 btn btn-info">
+									<input type="radio" name="rbAge" value="unknown" />Unknown
+								</label>
+							</div>
+
+						</div>
+						<div class="form-group">
+							<label class="control-label col-sm-2" for="imageFile">Picture</label>
+							<div class="col-sm-10">	
+									<input type="file"name="imgFile" class="form-control" id="imageFile"/>
+							</div>			
+						</div>						
+						<div class="col-sm-offset-2 col-sm-10 col-xs-offeset-2 col-xs-10">
+							<input type="reset" id="cancel" value="Cancel" class="btn btn-default col-sm-2" />
+							<input type="submit" id="submit" value="Submit" class="btn btn-primary col-sm-2" />
+						</div>
+						</form>
+					</div><!-- div report -->
+				</div> <!--content div-->
+
+			</div>
+		
+		
+		
+		
+		<footer>
+			<p class="text-right">All contents &amp; All rights reserved. &copy; Mohammed Kemal</p>
+		</footer>
+	</div>
+	
+
+</body>
+	
+</html>

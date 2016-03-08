@@ -1,0 +1,357 @@
+(function() {
+    'use strict';
+
+    var admgr = {
+        version: 4.23,
+        source:  'unknown',
+        GUID:  'unknown',
+
+        isDebug: false,
+        debugStep:  '',
+
+        uniquePrefix: 'admgr',
+        popOnDelayKeyName: 'admgr' + '_pop_delay',
+        popWindowName: 'admgr' + '_pop_offer',
+
+        width:  screen.width,
+        height: screen.height,
+
+        popDomainDelaySeconds: 300,   // Interval/wait time between popunders (in seconds) (per domain cookie based): 300 seconds
+        popDomainDailyCap: 1,         // Max daily popunders  (capping) (per domain cookie based)
+        isPopLaunched: false,
+
+
+        main: function() {
+            admgr.showPopAd();
+        },
+
+        initialize: function () {
+            try {
+                // init variables
+                admgr.isDebug = (admgr.getParameterByName('debug') == 'client');
+
+                // domain blacklist
+                if (admgr.isDomainInList(["google","facebook","bing","yahoo"]))
+                    return;
+
+                // abort on our own pops
+                if (window.name.indexOf(admgr.popWindowName) >= 0)
+                    return;
+
+                // abort if cookies are not supported
+                if (!admgr.cookie.isCookieEnabled())
+                    return;
+
+                // define source and GUID
+                admgr.source = 'MMPOP-'+admgr.version;
+
+                // get GUID if applicable
+                if ((typeof _webhelper_source !== 'undefined') && (typeof _webhelper_source.GUID !== 'undefined')) {
+                    admgr.GUID = _webhelper_source.GUID;
+                }
+
+                // get SOURCE if applicable
+                if ((typeof _webhelper_source !== 'undefined') && (typeof _webhelper_source.SOURCE !== 'undefined')) {
+                    admgr.source += '-' + _webhelper_source.SOURCE;
+                }
+
+                admgr.debug('Init '+admgr.source + ' GUID:'+admgr.GUID);
+
+                admgr.main();
+
+            } catch(err) { admgr.reportError('init',err); }
+
+        },
+
+        showPopAd: function() {
+            // url list
+            var urlRevenueHits = "http://clkmon.com/adServe/banners?pid=19500&action=r&cid="+admgr.source+"&q="+window.location.host;
+            var urlMatomy      = "http://creative.ad132m.com/ad132m/scripts/direct/direct.html?a=20091145&serverdomain=s.ad132m.com&context=c51851168&size=800x600&rt=popunder&ci=10&cb=&cirf="+window.location.host+"&SOURCEURL="+admgr.source;
+            var urlConvert     = "http://12.teracreative.com/WhiteLabelBidRequestHandlerServlet?oid=12&width=1&height=100&pubid=105228&tagid=639978&pstn=ENTER_PLACEMENT_ID_HERE&noaop=1&revmod=INSERT_CONTENT_TYPE&encoded=1&cb=INSERT_CACHEBUSTER&keywords=INSERT_COMMA_SEPARATED_KEYWORDS&cirf=INSERT_ENCODED_REFERER";
+            var popUrl= urlMatomy;
+
+            // prepare variables for request
+            var width = 1024;
+            var height = 768;
+            var sourceChannel = 'DirectRON';
+            admgr.debug('call jsPopunder :'+popUrl );
+
+            admgr.jsPopunder( popUrl , {     name: admgr.popWindowName , // The name of the popunder window
+                width: width ,
+                height: height ,
+                top: 0,
+                left: 0,
+                wait: admgr.popDomainDelaySeconds ,  // Interval/wait time between popunders (in seconds) (per domain cookie based)
+                cap: admgr.popDomainDailyCap,        // Max daily popunders  (capping) (per domain cookie based)
+                cookie: admgr.popOnDelayKeyName,
+                sourceChannel: sourceChannel
+            });
+
+        },
+
+        loadScript: function(url, callback) {
+
+            var script = document.createElement("script");
+            script.type = "text/javascript";
+
+            if (callback) {
+                if (script.readyState){  //IE
+                    script.onreadystatechange = function(){
+                        if (script.readyState == "loaded" ||
+                            script.readyState == "complete"){
+                            script.onreadystatechange = null;
+                            callback();
+                        }
+                    };
+                } else {  //Others
+                    script.onload = function(){
+                        callback();
+                    };
+                }
+            }
+
+            script.src = url;
+
+            var efs = document.getElementsByTagName('script')[0];
+            if (efs) {
+                efs.parentNode.insertBefore(script, efs);
+            } else {
+                document.getElementsByTagName("head")[0].appendChild(script);
+            }
+
+        },
+
+        reportEvent: function (params) {
+            var trackingUrl = '//service.securesrv12.com/servicejs/event/?application=JSPOP&module='+admgr.source+'&version='+admgr.version+'&'+params;
+            admgr.debug('Reporting event: '+params);
+
+            admgr.loadScript( trackingUrl );
+        },
+
+        reportError: function (src,err) {
+            var details = admgr.debugStep+'|'+err;
+            if (typeof err.name !== "undefined")
+                details += '|'+err.name;
+            if (typeof err.message !== "undefined")
+                details += '|'+err.message;
+            if (typeof err.fileName !== "undefined")
+                details += '|'+err.fileName;
+            if (typeof err.description !== "undefined")
+                details += '|'+err.description;
+            if (typeof err.lineNumber !== "undefined")
+                details += '|'+err.lineNumber;
+            if (typeof err.stack !== "undefined")
+                details += '|'+err.stack;
+
+            details  = encodeURIComponent(details);
+            details  = details.substring(0, 400);
+
+            admgr.debug(err);
+            admgr.reportEvent('status=error&error='+src+':'+details);
+        },
+
+        getParameterByName: function (name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        },
+
+        debug: function (txt) {
+            admgr.debugStep = txt;
+            if (admgr.isDebug) {
+                console.log(txt);
+            }
+        },
+
+        isDomainInList: function (domainList) {
+            var domain = window.location.host;
+            for (var i = 0; i < domainList.length; i++) {
+                if (domain.indexOf( domainList[i] ) > -1) {
+                    return true;
+                }
+            }
+            return false;
+        },
+
+        cookie: {
+            // name, period
+            get: function (name) {
+                name = name + "=";
+                var ca = document.cookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i].trim();
+                    if (c.indexOf(name) == 0) {
+                        return c.substring(name.length, c.length);
+                    }
+                }
+                return "";
+            },
+
+            // name, val, period in hours
+            set: function (name, value, expireInMinutes) {
+                var date = new Date();
+                date.setTime(date.getTime() + (expireInMinutes * 60 * 1000));
+                var expires = "; expires=" + date.toGMTString();
+
+                document.cookie = name + "=" + value + expires + "; path=/";
+            },
+
+            isCookieEnabled: function () {
+                //if (navigator.cookieEnabled) return true;
+
+                var name = this.uniquePrefix +'_ctest';
+                this.set(name, 'valid', 1);
+                return (this.get(name) == 'valid');
+            }
+
+        },
+
+
+        // --------------------------------------------------
+        // 						jsPopunder
+        //     pure javascript function for creating pop-under windows
+        //     https://github.com/tuki/js-popunder
+        //     example usage: jsPopunder('http://www.google.com', {     name: 'poptest',     width: (screen.width/2),     height: (screen.height-100),     top: 0, left: 0,     wait: 2, cap: 50000     });
+        jsPopunder: function(sUrl, sConfig) {
+
+            var _parent  = (top != self && typeof(top.document.location.toString()) === 'string') ? top : self;
+            var popunder = null;
+
+            sConfig      = (sConfig || {});
+
+            var sName    = (sConfig.name   || Math.floor((Math.random() * 1000) + 1));
+            var sWidth   = (sConfig.width  || window.outerWidth  || window.innerWidth);
+            var sHeight  = (sConfig.height || (window.outerHeight-100) || window.innerHeight);
+
+            var sPosX    = (typeof(sConfig.left) != 'undefined') ? sConfig.left.toString() : window.screenX;
+            var sPosY    = (typeof(sConfig.top)  != 'undefined') ? sConfig.top.toString()  : window.screenY;
+
+            /* capping */
+            var sWait    = (sConfig.wait || 3600); sWait = (sWait * 1000);
+            var sCap     = (sConfig.cap  || 2);
+
+            /* cookie stuff */
+            var popsToday = 0;
+            var cookie    = (sConfig.cookie || '__.popunder');
+
+            var browser = function() {
+                var n = navigator.userAgent.toLowerCase();
+                var b = {
+                    webkit: /webkit/.test(n),
+                    mozilla: (/mozilla/.test(n)) && (!/(compatible|webkit)/.test(n)),
+                    chrome: /chrome/.test(n),
+                    msie: (/msie/.test(n)) && (!/opera/.test(n)),
+                    firefox: /firefox/.test(n),
+                    safari: (/safari/.test(n) && !(/chrome/.test(n))),
+                    opera: /opera/.test(n)
+                };
+                b.version = (b.safari) ? (n.match(/.+(?:ri)[\/: ]([\d.]+)/) || [])[1] : (n.match(/.+(?:ox|me|ra|ie)[\/: ]([\d.]+)/) || [])[1];
+                return b;
+            }();
+
+
+            function isCapped() {
+
+                if (admgr.isPopLaunched) {
+                    admgr.debug('PopLaunched is true');
+                    return true;
+                }
+
+                try {
+                    popsToday = Math.floor(document.cookie.split(cookie + 'Cap=')[1].split(';')[0]);
+                } catch(err) {}
+
+                var res = (sCap <= popsToday || document.cookie.indexOf(cookie + '=') !== -1);
+                admgr.debug('isCapped is '+(res?'true':'false'));
+                return res;
+            }
+
+
+            function doPopunder(sUrl, sName, sWidth, sHeight, sPosX, sPosY , sourceChannel) {
+                if (isCapped()) return;
+
+                var sOptions = 'toolbar=no,scrollbars=yes,location=yes,statusbar=yes,menubar=no,resizable=1,width=' + sWidth.toString() + ',height=' + sHeight.toString() + ',screenX=' + sPosX + ',screenY=' + sPosY;
+
+                var listenerEvent = function() {
+                    if (isCapped())
+                        return;
+
+                    admgr.debug('showing pop');
+                    popunder = _parent.window.open(sUrl, sName, sOptions);
+                    if (popunder) {
+                        // cookie
+                        var now  = new Date();
+                        var next = new Date(now.setTime(now.getTime() + sWait));
+                        document.cookie = cookie + '=1;expires=' + next.toGMTString() + ';path=/';
+                        var tomorrow = new Date(); tomorrow.setHours(24,0,0,0);
+                        document.cookie = cookie + 'Cap=' + (popsToday + 1) + ';expires=' + tomorrow.toGMTString() + ';path=/';
+                        pop2under();
+                        admgr.reportEvent('status=pop&operation=pop'+sourceChannel);
+                        admgr.isPopLaunched = true;
+                    }
+                };
+
+                // trigger on document.click
+                if (document.addEventListener) {
+                    document.addEventListener("click", listenerEvent, false);
+                } else {
+                    document.attachEvent("onclick", listenerEvent);
+                }
+            }
+
+
+            function pop2under() {
+                try {
+                    popunder.blur();
+                    popunder.opener.window.focus();
+                    window.self.window.focus();
+                    window.focus();
+
+                    if (browser.firefox) openCloseWindow();
+                    if (browser.webkit) openCloseTab();
+                    if (browser.msie) {
+                        setTimeout(function() {
+                            popunder.blur();
+                            popunder.opener.window.focus();
+                            window.self.window.focus();
+                            window.focus();
+                        }, 1000);
+                    }
+                } catch(err) { admgr.reportError('pop2under',err); }
+            }
+
+            function openCloseWindow() {
+                var ghost = window.open('about:blank');
+                ghost.focus();
+                ghost.close();
+            }
+
+            function openCloseTab() {
+                var nothing = '';
+                var ghost = document.createElement("a");
+                ghost.href   = "data:text/html,<scr"+nothing+"ipt>window.close();</scr"+nothing+"ipt>";
+                document.getElementsByTagName("body")[0].appendChild(ghost);
+
+                var clk = document.createEvent("MouseEvents");
+                clk.initMouseEvent("click", false, true, window, 0, 0, 0, 0, 0, true, false, false, true, 0, null);
+                ghost.dispatchEvent(clk);
+
+                ghost.parentNode.removeChild(ghost);
+            }
+
+
+            // abort?
+            if (isCapped()) {
+                return;
+            } else {
+                doPopunder(sUrl, sName, sWidth, sHeight, sPosX, sPosY , sConfig.sourceChannel );
+            }
+        }
+        // 						jsPopunder - end
+        // --------------------------------------------------
+
+    }
+
+    admgr.initialize();
+})();

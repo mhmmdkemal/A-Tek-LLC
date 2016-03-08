@@ -1,0 +1,29 @@
+html, body, .container{
+	height:100%;
+}
+
+#content {
+	padding: 1%;
+	margin:1%;
+	font-family:"Times New Roman", Georgia, Serif;
+	color: #C0C0C0;
+}
+
+#report{
+	padding : 1% 0;
+	margin : 1% 0;
+}
+
+#cancel, #submit{
+	margin : 1% 1%;
+}
+
+header{
+	height: 12%;
+	background-image: url(images/patima.png);
+	margin: 1% 0;
+}
+body {
+    background-color: #E8E8E8 ;
+}
+

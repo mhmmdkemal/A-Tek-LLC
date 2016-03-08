@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="DeployWizardAction">
+		<item value="com.aptana.deploy.ftp.wizard" key="DeployWizardPage.STORE_SELECTED_DEPLOY_WIZARD_ID"/>
+		<list key="DeployWizardPage.STORE_EXPANDED_DEPLOY_CATEGORIES">
+		</list>
+	</section>
+</section>

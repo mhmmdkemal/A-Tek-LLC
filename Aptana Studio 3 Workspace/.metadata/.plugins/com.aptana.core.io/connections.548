@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<connections>
+<connection id="c3940e36-674a-4772-8c36-6de56a28a54d" type="sftp">
+<name>terpconnect.umd.edu</name>
+<host>terpconnect.umd.edu</host>
+<login>mkemal1</login>
+<compression>AUTO</compression>
+</connection>
+<connection id="c297c59f-33cf-4b5c-a56a-7213706f7a49" type="workspace">
+<name>Lab1</name>
+<path>/Lab1</path>
+</connection>
+</connections>

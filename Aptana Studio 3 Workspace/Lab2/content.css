@@ -1,0 +1,52 @@
+#content h1{
+			font-family: "Times New Roman", Georgia, Serif;
+			color: blue;
+}
+#content h2{
+			font-family:"Times New Roman", Georgia, Serif;
+			color: blue;
+}
+#content {
+		background-color: lightgray;
+}
+#content h3{
+			font-family:"Times New Roman", Georgia, Serif;
+			color: blue;
+}
+#content a{
+		text-decoration:none
+}
+
+#content a:hover{
+				text-decoration:underline
+}
+#content p{
+    font-style: italic;
+}
+body {
+    background-color: #b0c4de;
+}
+	a:link {
+	    color: blue;
+	}
+	
+	/* visited link */
+	a:visited {
+	    color: red;
+	}
+	
+	/* mouse over link */
+	a:hover {
+	    color: bold;
+	}
+	
+	/* selected link */
+	a:active {
+	    color: #0000FF;
+	}
+	a:link{text-decoration:none
+	}
+	a:link:hover{text-decoration:underline
+	}
+	p:first-letter{font-size: 150%
+	}

@@ -1,0 +1,68 @@
+html, body, .container{
+	width:100%;
+    height:100%;
+    padding:0%;
+    border:0px solid black;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    box-sizing:border-box;
+    background: black; 
+}
+#content {
+	margin-left:auto;
+	margin-right:auto;
+	margin-bottom:auto;
+	font-family:"Times New Roman", Georgia, Serif;
+	color: #000000;
+}
+#content table{
+	font-family:"Times New Roman", Georgia, Serif;
+}
+
+
+
+#content thead{
+	text-decoration: underline;
+}
+
+body {
+    background-color: #E8E8E8 ;    
+}
+footer{
+	font-weight:bold;
+}
+#content h1{
+	font-style: italic, bold;
+}
+.container{
+    width:100%;
+    height:400px;
+    padding:0%;
+    border:1px solid gray;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    box-sizing:border-box;
+    background: black; 
+}
+.image-slider-wrapper{
+    overflow: hidden;
+}
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+color: #FF0000;  /*Sets the text hover color on navbar*/
+}
+
+.navbar-default .navbar-nav > . ACTIVE> a, .navbar-default .navbar-nav > . ACTIVE>   
+ a:hover, .navbar-default .navbar-nav > .active > a:focus {
+color: white; / BACKGROUND color for active*/
+background-color: #FF0000;
+}
+.navbar-default {
+    background-color: #0f006f;
+    border-color: #030033;
+}
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+    color: #FF0000;
+   text-decoration: none;
+  background-color: #66CCFF;  /*change color of links in drop down here*/
+   }

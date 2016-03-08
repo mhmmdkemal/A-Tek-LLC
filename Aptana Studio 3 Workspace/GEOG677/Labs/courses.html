@@ -1,0 +1,111 @@
+
+<!DOCTYPE html> 
+<html>
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, intial-scale=1">
+
+<title>Internet GIS</title>
+<link href="report_collisions.html" rel="stylesheet" type="text/css" media="screen" />
+<link href="frame.html" rel="stylesheet" type="text/css" media="screen" />
+
+
+<link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+<link rel='stylesheet' href="custom.css">
+
+</head>
+
+<body>
+	<div class="container">
+		<header class="row">
+			</header>
+			<div class="row"> <!-- navbar -->
+				<nav class="navbar navbar-default">
+					<div class="container-fluid">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"> </span>
+								<span class="icon-bar"> </span>
+								<span class="icon-bar"> </span>
+							</button>
+							<a class="navbar-brand" href="index.html">Internet GIS</a>
+						</div>
+						
+						<div>
+						
+						<div class="collapse navbar-collapse" id="navbar">
+							<ul class="nav navbar-nav navbar-right">
+								<li><a href="index.html">Home</a></li>
+								
+								<li> <a href="courses.html">Courses</a></li>	
+															
+								<li class="dropdown">
+									<a class="dropdown-toggle" data-toggle="dropdown" href="#">Labs
+										<span class="carat"> </span></a>
+										<ul class="dropdown-menu">
+											<li> <a href="lab1.html">Lab 1</a></li>
+											<li><a href="lab2.html">Lab 2</a></li>
+											<li><a href="lab3.html">Lab 3</a></li>
+											<li><a href="lab4.html">Lab 4</a></li>		
+											<li><a href="lab5.html">Lab 5</a></li>											
+										</ul>
+								</li>
+								
+								<li><a href="contact.html">Contact</a></li>
+							</ul>
+							</div>
+						</div>
+					</div><!-- end container-fluid -->
+				</nav>	
+ 				<div>
+					<div class="jumbotron">
+
+						<center><img src="images/geog.png" width="900" height="200" name="slide" /></center>
+						<script type="text/javascript">
+						        var step=1;
+						        function slideit()
+						        {
+						            document.images.slide.src = eval("image"+step+".src");
+						            if(step<2)
+						                step++;
+						            else
+						                step=1;
+						            setTimeout("slideit()",2500);
+						        }
+						        slideit();
+						</script>	
+						<h4>GEOG677: Internet GIS</h4>									
+						<p style="font-size:100%;">GEOG677 is a core course of the MPS GIS Program of the University of Maryland, 
+							at College Park. This course aims to provide an introduction to Internet-Web GIS and various technical options. 
+							The topics covered will include the structure, models, and protocols related to the Internet, server-client models, 
+							mark-up languages, and then various technologies for designing Web GIS applications. This class emphasizes on
+							 hands-on practices from Google Earth, KML/KMZ, Google Map API, ArcGIS Server, JavaScript APIs, Flex APIs, and to
+							  Silverlight APIs. The focus is on ArcGIS Server and how to utilize the REST services for API development.</p>		
+						<h4>GEOG656: Programming and Scripting for GIS</h4>									
+						<p style="font-size:100%;">Intense programming class focusing on python. This course is an introduction to programming
+							 for intermediate GIS users. The fundamental concepts of computer programming will be introduced within the Geoprocessing 
+							 framework in ArcGIS primarily using Python. Basic concepts of object-oriented programming and scripting will be presented.
+							  Students will develop skills in programming techniques to explore, manipulate and model spatial data using the Geoprocessor methods. </p>
+						<h4>GEOG653: Spatial Analysis</h4>									
+						<p style="font-size:100%;">Analytical uses of geographic information systems; data models for building geographic databases; types of geographic
+							 data and spatial problems; practical experience using advanced software for thematic domains such as terrain analysis, land suitability modeling,
+							  demographic analysis, and transportation studies. </p>																
+					</div>	
+				</div>
+
+    <div>
+      
+    </div>
+
+		<footer>
+			<p class="text-right">All contents &amp; All rights reserved. &copy; Mohammed Kemal</p>
+		</footer>
+  </div>
+</body>
+</html>

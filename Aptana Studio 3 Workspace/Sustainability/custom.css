@@ -1,0 +1,92 @@
+html, body, .container{
+	height:100%;
+}
+#content {
+	padding: 1%;
+	margin:1%;
+	font-family:"Times New Roman", Georgia, Serif;
+	color: #000000;
+}
+#content table{
+	font-family:"Times New Roman", Georgia, Serif;
+}
+#report{
+	padding : 1% 0;
+	margin : 1% 0;
+}
+table#mocamel {
+  margin: -30px 0px 0px -33px;
+}
+#cancel, #submit{
+	margin : 1% 1%;
+}
+
+header{
+	height: 12%;
+	background-image: url("images/patima.png");
+	margin: 1% 0;
+}
+#content thead{
+	text-decoration: underline;
+}
+
+body {
+    background-color: #E8E8E8 ;    
+}
+
+#content h2{
+	padding: 1%;
+	margin:1%;
+	font-style: italic, bold;
+}
+footer{
+	font-weight:bold;
+}
+#content h3{
+	font-style: italic, bold;
+}
+#map {
+	padding: relative;
+}
+.containers{
+    width:800px;
+    height:400px;
+    padding:20px;
+    border:1px solid gray;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    box-sizing:border-box;
+    background: black; 
+}
+.image-slider-wrapper{
+    overflow: hidden;
+}
+#image_slider{
+    position: relative;
+    height: 300px;
+    padding:0;
+}
+#image_slider li{
+    max-width: 100%;
+    float:left;
+    list-style: none;
+}
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+color: #FF0000;  /*Sets the text hover color on navbar*/
+}
+
+.navbar-default .navbar-nav > . ACTIVE> a, .navbar-default .navbar-nav > . ACTIVE>   
+ a:hover, .navbar-default .navbar-nav > .active > a:focus {
+color: white; / BACKGROUND color for active*/
+background-color: #FF0000;
+}
+.navbar-default {
+    background-color: #0f006f;
+    border-color: #030033;
+}
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+    color: #FF0000;
+   text-decoration: none;
+  background-color: #66CCFF;  /*change color of links in drop down here*/
+   }

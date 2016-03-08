@@ -1,0 +1,161 @@
+<!DOCTYPE html> 
+<html>
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<title>Internet GIS</title>
+<link href="report_collisions.html" rel="stylesheet" type="text/css" media="screen" />
+<link href="frame.html" rel="stylesheet" type="text/css" media="screen" />
+
+
+<link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+<link rel='stylesheet' href="custom.css">
+    <style>
+      html,body{
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      
+      }
+      #map {
+      	margin-top; auto;
+    	margin-left: auto;
+    	margin-right: auto;   	
+        width: auto; 
+        height: 400px; 
+        border:#200 solid thin;
+        position: relative;
+      }
+    </style>
+</head>
+<body>
+	<div class="container">
+		<header class="row">
+			</header>
+			<div class="row"> <!-- navbar -->
+				<nav class="navbar navbar-default">
+					<div class="container-fluid">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"> </span>
+								<span class="icon-bar"> </span>
+								<span class="icon-bar"> </span>
+							</button>
+							<a class="navbar-brand" href="index.html">Internet GIS</a>
+						</div>
+						
+						<div>
+						
+						<div class="collapse navbar-collapse" id="navbar">
+							<ul class="nav navbar-nav navbar-right">
+								<li><a href="index.html">Home</a></li>
+								
+								<li> <a href="courses.html">Courses</a></li>	
+															
+								<li class="dropdown">
+									<a class="dropdown-toggle" data-toggle="dropdown" href="#">Labs
+										<span class="carat"> </span></a>
+										<ul class="dropdown-menu">
+											<li> <a href="lab1.html">Lab 1</a></li>
+											<li><a href="lab2.html">Lab 2</a></li>
+											<li><a href="lab3.html">Lab 3</a></li>
+											<li><a href="lab4.html">Lab 4</a></li>		
+											<li><a href="lab5.html">Lab 5</a></li>											
+										</ul>
+								</li>
+								
+								<li><a href="contact.html">Contact</a></li>
+							</ul>
+							</div>
+						</div>
+					</div><!-- end container-fluid -->
+				</nav>	
+			</div>
+<script>
+ var trafficLayer, map , bikeLayer, KML;
+
+
+function initMap() {
+  var pos = {lat: 38.9875, lng: -76.9400};
+  var map= new google.maps.Map(document.getElementById('map'), {
+    zoom: 1,
+    center: {lat: 38.9875, lng: -76.9400}
+  });
+
+  
+    var KML = new google.maps.KmlLayer({
+    url: "https://terpconnect.umd.edu/~mkemal1/geog677/lab1/KML/Untitled.kmz",
+    map: map
+  });
+  trafficLayer = new google.maps.TrafficLayer();
+  trafficLayer.setMap(map); 
+  
+  var contentString = '<div id="content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h3 >University of Maryland, College Park</h3>'+
+      '<div'+
+      '<p>The University of Maryland, College Park is a public research university located in the city of College Park in Prince Georges County, Maryland, approximately 4 miles from the northeast border of Washington, D.C.. </p>'+
+      '</div>'+
+      '</div>';
+
+  var infowindow = new google.maps.InfoWindow({
+    content: contentString,
+    maxWidth: 200
+  });
+
+  var marker = new google.maps.Marker({
+    position: pos,
+    map: map,
+    title: 'UMD Campus'
+  });
+  marker.addListener('click', function() {
+     infowindow.open(map, marker);
+    
+  });
+}
+
+
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-V0Ah8jPi1EOpvBBo22LDtMPmyeVSc2c&callback=initMap"
+        async defer></script>
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script> 
+ <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+ <script src="portfolio.js"></script>
+ 
+ <div id="content" style="font-size:150%;">
+			 <h1> University of Maryland</h1>
+        		<ul>
+	        		<li ><FONT SIZE=5 COLOR="Black" FACE="TIMES">Map of university of Maryland</FONT></li>
+	        		<li ><FONT SIZE=5 COLOR="Black" FACE="TIMES">Trafic Information</FONT></li>	        		
+	        			<ul ><FONT SIZE=4 COLOR="Red" FACE="TIMES">Red means congestion</FONT></ul>
+	        			<ul ><FONT SIZE=4 COLOR="Orange" FACE="VERDANA">Yellow means average traffic</FONT></ul>
+	        			<ul ><FONT SIZE=4 COLOR="Green" FACE="VERDANA">Green means no traffic</FONT></ul>
+	        		<li ><FONT SIZE=5 COLOR="Black" FACE="TIMES">Polygon of different places at UMD</FONT></li>
+	        			<ul ><FONT SIZE=4 COLOR="Puple" FACE="TIMES">Purple are the different polygons</FONT></ul>	        		
+         		</ul>        			
+			 
+			 <div id="map">
+			 	
+			 </div>     			
+      	</div>
+ 		
+
+ <div>   
+    <footer>
+		<p class="text-right">All contents &amp; All rights reserved. &copy; Mohammed Kemal</p>
+	</footer>
+</div>
+</div>
+
+</body >
+
+

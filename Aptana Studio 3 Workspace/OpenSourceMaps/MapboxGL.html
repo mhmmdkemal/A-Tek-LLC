@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+    <meta charset='utf-8' />
+    <title>Earthquakes Map</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.11.4/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.11.4/mapbox-gl.css' rel='stylesheet' />
+	<link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>  
+  	<link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+    
+	<link rel='stylesheet' href="custom.css">
+
+    <style>
+      #map {
+      	margin-top; 3.8%;
+    	margin-left: auto;
+    	margin-right: auto;   	
+        width: auto; 
+        height: 400px; 
+        border:#200 solid thin;
+        position: relative;
+      }
+    </style>
+	<style>
+	  #menu {
+        position: center;
+        background: #fff;
+	    padding: 10px;
+	    font-family: 'Open Sans', sans-serif;
+	  }
+	</style>
+</head>
+
+
+
+<body onload="initialize();" onunload="GUnload();">
+	<div class="container">
+		<header class="row">
+			</header>
+			<div class="row"> <!-- navbar -->
+				<nav class="navbar navbar-default">
+					<div class="container-fluid">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"> </span>
+								<span class="icon-bar"> </span>
+								<span class="icon-bar"> </span>
+							</button>
+							<a class="navbar-brand" href="MapboxGL.html">Internet GIS</a>
+						</div>
+						
+						
+						<div class="collapse navbar-collapse" id="navbar">
+							<ul class="nav navbar-nav navbar-right">
+								<li><a href="MapboxGL.html">Mapbox GL JS</a></li>
+								<li> <a href="Google.html">Google API</a></li>
+								
+								<li> <a href="Turf.html">Turf</a></li>
+
+									
+
+							</ul>
+						</div>
+					</div><!-- end container-fluid -->
+				</nav>			
+</div>
+<div class="jumbotron" style= "height: 200%; width: 100%">
+  <h3>Mapbox GL Api</h3>
+  <p>
+	This map uses the Mapbox GL API. I pulled in earthquake data from USGS.gov. 
+	These data received are pulled in based on their coordinate systems and placed on the map.
+	 These items are then displayed as purple dots to show where the earthquakes took place.
+	  A blue dot is used similar to a buffer to create a theatrical extent of the impact of the 
+	  earthquakes within a boundary (a formula is used for this part).  
+  </p>
+
+  <div id='map'></div>
+	  <div id='menu' align="center">
+	    <input id='basic' type='radio' name='rtoggle' value='basic' checked='checked'>
+	    <label for='basic'>basic</label>
+	    <input id='streets' type='radio' name='rtoggle' value='streets'>
+	    <label for='streets'>streets</label>
+	    <input id='emerald' type='radio' name='rtoggle' value='emerald'>
+	    <label for='emerald'>emerald</label>
+	    <input id='bright' type='radio' name='rtoggle' value='bright'>
+	    <label for='bright'>bright</label>
+	    <input id='light' type='radio' name='rtoggle' value='light'>
+	    <label for='light'>light</label>
+	    <input id='dark' type='radio' name='rtoggle' value='dark'>
+	    <label for='dark'>dark</label>
+	    <input id='satellite' type='radio' name='rtoggle' value='satellite'>
+	    <label for='satellite'>satellite</label>
+	   </div>
+	<script>
+		mapboxgl.accessToken = 'pk.eyJ1IjoibWhtbWRrZW1hbCIsImEiOiJjaWo5a3hocWkwMDNsdW1seGxqem0xaHk3In0.2HkUnEninXg8jTPN7DvUCw';
+		var map = new mapboxgl.Map({
+		  container: 'map',
+		  style: 'mapbox://styles/mapbox/dark-v8',
+		  center: [-120,37.8],
+		  zoom: 6
+		});
+				
+		var layerList = document.getElementById('menu');
+		var inputs = layerList.getElementsByTagName('input');
+		
+		function switchLayer(layer) {
+		    var layerId = layer.target.id;
+		    map.setStyle('mapbox://styles/mapbox/' + layerId + '-v8');
+		}
+		
+		for (var i = 0; i < inputs.length; i++) {
+		    inputs[i].onclick = switchLayer;
+		}
+		
+		map.on('style.load', function() {
+		   map.addSource("quakes", {
+		       "type": "geojson",
+		       "data": "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson"
+		   });
+		   map.addLayer({
+		     "id": "quakes", // An id for this layer
+		     "type": "circle", // As a point layer, we need style a symbol for each point.
+		     "source": "quakes", // The source layer we defined above
+		     "paint": {
+		         "circle-radius": 5,
+		         "circle-color": "#CC99FF"
+		     }
+		   });
+		
+			map.addLayer({
+			    "id": "quakes-0",
+			    "type": "circle",
+			    "source": "quakes",
+			    "filter": ["all", [">=", "mag", 0], ["<", "mag", 1]],
+			    "paint": {
+			        "circle-radius": 10,
+			        "circle-color": "#0000FF",
+			        "circle-opacity": {
+			            "stops": [[6, 0.5], [7,0.4]] // Gives us interpolated values between 0.2 and 0.8
+			        }
+			    }
+			 });
+
+			var mags = [0,1,2,3,4,5,6,7,8,9,10];
+			for(var i=0; i < mags.length; i++) {
+			  var mag = mags[i];
+			  map.addLayer({
+			    "id": "quakes-"+mag,
+			    "type": "circle",
+			    "source": "quakes",
+			    "filter": ["all", [">=", "mag", mag], ["<", "mag", mag+1]],
+			    "paint": {
+			        "circle-radius": Math.pow(mag,2)/1.5,
+			        "circle-color": "#FFFFCC",
+			        "circle-opacity": 0.5
+			    }
+			  });
+			}		 
+		});
+		</script>
+  </div>
+</body>

@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0099)http://129.2.24.54:8080/phpMyAdmin/navigation.php?token=754333f38e1290a8639a9d10bda2086c&db=mkemal1 -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="icon" href="http://129.2.24.54:8080/phpMyAdmin/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="http://129.2.24.54:8080/phpMyAdmin/favicon.ico" type="image/x-icon">
+    <title>phpMyAdmin</title>
+    
+    <!--<base target="frame_content">--><base href="." target="frame_content">
+    <link rel="stylesheet" type="text/css" href="phpmyadmin.css.php">
+    <script src="jquery-1.6.2.js" type="text/javascript"></script><style type="text/css"></style>
+<script src="jquery-ui-1.8.16.custom.js" type="text/javascript"></script>
+<script src="jquery.qtip-1.0.0-rc3.js" type="text/javascript"></script>
+<script src="navigation.js" type="text/javascript"></script>
+<script src="functions.js" type="text/javascript"></script>
+<script src="messages.php" type="text/javascript"></script>
+<script src="get_image.js.php" type="text/javascript"></script>
+    <script type="text/javascript">
+    // <![CDATA[
+    // INIT PMA_setFrameSize
+    var onloadCnt = 0;
+    var onLoadHandler = window.onload;
+    var resizeHandler = window.onresize;
+    window.document.onresize  = resizeHandler;
+    window.onload = function() {
+        if (onloadCnt == 0) {
+            if (typeof(onLoadHandler) == "function") {
+                onLoadHandler();
+            }
+            if (typeof(PMA_setFrameSize) != 'undefined' && typeof(PMA_setFrameSize) == 'function') {
+                PMA_setFrameSize();
+            }
+            onloadCnt++;
+        }
+    };
+    window.onresize = function() {
+        if (typeof(resizeHandler) == "function") {
+            resizeHandler();
+        }
+        if (typeof(PMA_saveFrameSize) != 'undefined' && typeof(PMA_saveFrameSize) == 'function') {
+            PMA_saveFrameSize();
+        }
+    };
+    // ]]>
+    </script>
+        <!--[if IE 6]>
+    <style type="text/css">
+    /* <![CDATA[ */
+    html {
+        overflow-y: scroll;
+    }
+    /* ]]> */
+    </style>
+    <![endif]-->
+</head>
+
+<body id="body_leftFrame">
+<div id="pmalogo">
+<a href="http://129.2.24.54:8080/phpMyAdmin/main.php?token=754333f38e1290a8639a9d10bda2086c" target="frame_content"><img src="logo_left.png" alt="phpMyAdmin" id="imgpmalogo"></a>
+</div>
+<div id="leftframelinks">
+<a href="http://129.2.24.54:8080/phpMyAdmin/main.php?token=754333f38e1290a8639a9d10bda2086c" title="Home"><img src="dot.gif" title="Home" alt="Home" class="icon ic_b_home"></a>
+<a href="http://129.2.24.54:8080/phpMyAdmin/index.php?token=754333f38e1290a8639a9d10bda2086c&old_usr=mkemal1" target="_parent" title="Log out"><img src="dot.gif" title="Log out" alt="Log out" class="icon ic_s_loggoff"></a>
+<a href="http://129.2.24.54:8080/phpMyAdmin/querywindow.php?db=mkemal1&token=754333f38e1290a8639a9d10bda2086c&no_js=true" title="Query window" onclick="if (window.parent.open_querywindow()) return false;"><img src="dot.gif" title="Query window" alt="Query window" class="icon ic_b_selboard"></a>
+    <a href="http://129.2.24.54:8080/phpMyAdmin/Documentation.html" target="documentation" title="phpMyAdmin documentation"><img src="dot.gif" title="phpMyAdmin documentation" alt="phpMyAdmin documentation" class="icon ic_b_docs"></a><a href="http://129.2.24.54:8080/phpMyAdmin/url.php?url=http%3A%2F%2Fdev.mysql.com%2Fdoc%2Frefman%2F5.5%2Fen%2Findex.html&token=754333f38e1290a8639a9d10bda2086c" target="mysql_doc"><img src="dot.gif" title="Documentation" alt="Documentation" class="icon ic_b_sqlhelp"></a>
+<a href="http://129.2.24.54:8080/phpMyAdmin/navigation.php??uniqid=555194b5188f6&db=mkemal1&token=754333f38e1290a8639a9d10bda2086c" title="Reload navigation frame" target="frame_navigation"><img src="dot.gif" title="Reload navigation frame" alt="Reload navigation frame" class="icon ic_s_reload"></a></div>
+<div id="recentTableList">
+<form method="post" action="http://129.2.24.54:8080/phpMyAdmin/index.php" target="_parent">
+<input type="hidden" name="token" value="754333f38e1290a8639a9d10bda2086c">
+<input type="hidden" name="goto" id="LeftDefaultTabTable" value="tbl_structure.php"><select name="selected_recent_table" id="recentTable"><option value="">(Recent tables) ...</option><option value="{&quot;db&quot;:&quot;mkemal1&quot;,&quot;table&quot;:&quot;ethiopia&quot;}">`mkemal1`.`ethiopia`</option><option value="{&quot;db&quot;:&quot;mkemal1&quot;,&quot;table&quot;:&quot;Ethiopia&quot;}">`mkemal1`.`Ethiopia`</option><option value="{&quot;db&quot;:&quot;mkemal1&quot;,&quot;table&quot;:&quot;table 2&quot;}">`mkemal1`.`table 2`</option><option value="{&quot;db&quot;:&quot;mkemal1&quot;,&quot;table&quot;:&quot;collisions&quot;}">`mkemal1`.`collisions`</option></select><noscript>
+&lt;input type="submit" name="Go" value="Go" /&gt;
+</noscript>
+</form>
+</div>
+
+    <div id="databaseList">
+    <form method="post" action="http://129.2.24.54:8080/phpMyAdmin/index.php" target="_parent" id="left">
+    <input type="hidden" name="token" value="754333f38e1290a8639a9d10bda2086c">
+<select name="db" id="lightm_db" xml:lang="en" dir="ltr" onchange="if (this.value != &#39;&#39;) window.parent.openDb(this.value);">
+<option value="" dir="ltr">(Databases) ...</option>
+<option value="information_schema" title="">information_schema</option>
+<option value="mkemal1" title="" selected="selected">mkemal1</option>
+<option value="test" title="">test</option>
+</select>
+<noscript>
+&lt;input type="submit" name="Go" value="Go" /&gt;
+</noscript>
+</form>
+</div>
+
+<div id="left_tableList">
+<ul id="subel0"><li>
+<a class="tableicon" title="Structure:  (9 Rows)" id="quick_mkemal1.collisions" href="http://129.2.24.54:8080/phpMyAdmin/tbl_structure.php?db=mkemal1&token=754333f38e1290a8639a9d10bda2086c&table=collisions&goto=tbl_structure.php"><img src="dot.gif" title="Structure" alt="Structure" id="icon_mkemal1.collisions" class="icon ic_b_browse"></a><a href="http://129.2.24.54:8080/phpMyAdmin/sql.php?db=mkemal1&token=754333f38e1290a8639a9d10bda2086c&table=collisions&pos=0" title="Browse:  (9 Rows)" id="mkemal1.collisions">collisions</a></li>
+<li>
+<a class="tableicon" title="Structure:  (11)" id="quick_mkemal1.ethiopia" href="http://129.2.24.54:8080/phpMyAdmin/tbl_structure.php?db=mkemal1&token=754333f38e1290a8639a9d10bda2086c&table=ethiopia&goto=tbl_structure.php"><img src="dot.gif" title="Structure" alt="Structure" id="icon_mkemal1.ethiopia" class="icon ic_b_browse"></a><a href="http://129.2.24.54:8080/phpMyAdmin/sql.php?db=mkemal1&token=754333f38e1290a8639a9d10bda2086c&table=ethiopia&pos=0" title="Browse:  (11)" id="mkemal1.ethiopia">ethiopia</a></li>
+</ul><ul id="newtable"><li><a target="frame_content" href="http://129.2.24.54:8080/phpMyAdmin/tbl_create.php?db=mkemal1&token=754333f38e1290a8639a9d10bda2086c" class="ajax"><img src="dot.gif" title="Create table" alt="Create table" id="icon_newtable" class="icon ic_b_snewtbl">Create table</a></li></ul></div>
+</body></html>

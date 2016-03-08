@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame 
+       Remove this if you use the .htaccess -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title>index</title>
+  <meta name="description" content="">
+  <meta name="author" content="Mohammed Kemal">
+
+  <meta name="viewport" content="width=device-width; initial-scale=1.0">
+
+  <!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+  <link rel="stylesheet" href="css/mystyles.css" />
+  <link rel="stylesheet" href="css/mytheme.css" />
+  <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script>
+  	$( document ).on( "mobileinit", function() {
+		$.mobile.toolbar.prototype.options.theme = "b";
+		$.mobile.defaultPageTransition = "slideup";
+		$.mobile.page.prototype.options.backBtnText = "Go Back";
+
+	}); //theme ends 
+  </script>
+  <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places" ></script>
+  
+  <script>//javascript	
+
+
+			//Global Variables
+			var geocoder;
+			var currentLocation;
+			var searchResults;
+			var map;
+			var directionsDisplay;
+			var directionService;
+			var faciLocation;				
+			
+			//start init 
+
+			function init(){
+				if(navigator.geolocation) {
+					navigator.geolocation.watchPosition(showLocation, locationError);
+					}
+				else {
+					alert("Geolocation not supported on this device");
+					return;
+				}
+	
+				//define events/tasks
+	
+				$("#policeItem").on("click", function() { queryPlaces('Police');});
+				$("#fsItem").on("click", function() { queryPlaces('Fire Station');});
+				$("#tdItem").on("click", function() { queryPlaces('Transportation Department'); });
+				$("#ahItem").on("click", function() { queryPlaces('Animal Hospital');});
+				$("#hospitalItem").on("click", function() { queryPlaces('Hospital');});			
+			if (!map) initMap();
+			}//end init
+					
+
+			function showLocation(location) {
+
+				geocoder = new google.maps.Geocoder();
+				currentLocation = new google.maps.LatLng(location.coords.latitude, location.coords.longitude);
+				$("#lat").attr("value", location.coords.latitude);				
+				$("#lng").attr("value", location.coords.longitude);				
+				
+				geocoder.geocode({'location': currentLocation}, function(results, status)  {							
+					if (status == google.maps.GeocoderStatus.OK) {	
+						if (results[0])  {					
+							$('#loc').html(results[0].formatted_address);
+							$("#address").attr("value",results[0].formatted_address);
+						} else {
+							$('#loc').html('No address found');
+								}
+					} else {				
+						$('#loc').html('Unable to determine address');			
+					}
+				});  //end of geocode portion
+				
+				var d = new Date(location.timestamp);
+				$("#rdate").attr("value", formatDate(d));				
+				
+				//var temp = "Geocoding Not In Operation... SORRY!!";
+				//$('#loc').html(temp);
+				var info = "Latitude: "+ parseFloat(location.coords.latitude).toFixed(3) + "<br/>";
+				info += "Longitude: "+ parseFloat(location.coords.longitude).toFixed(3) + "<br/>";
+				info += "Accuracy: "+ location.coords.accuracy + " m<br/>";
+				info += "Updated: " + new Date(location.timestamp).toLocaleString();
+				$('#acc').html(info);
+			}//end of showlocation
+			
+			function formatDate(date) {
+				return date.getFullYear() + '-' +
+					(date.getMonth() < 9 ? '0' : '') + (date.getMonth()+1) + '-' +
+					(date.getDate() < 10 ? '0' : '') + date.getDate();
+			}			
+			function queryPlaces(queryVal) {
+				var dist = $("#distVal").text().split(" ");
+				var service = new google.maps.places.PlacesService(map);
+				var request = {
+					location: currentLocation,
+					radius: dist[0],
+					keyword: queryVal,
+					rankBy: google.maps.places.DISTANCE
+				};
+				service.nearbySearch(request, buildPlacesList);
+			}// end of query places	
+			
+			function buildPlacesList(results,status) {				
+				searchResults = results;								
+				$("#searchResults li").remove(); 						
+				
+				//Review
+					if (status == google.maps.places.PlacesServiceStatus.OK){
+						if (results.length == 0){
+							var results = $("<li>").html('No Results Found!').appendTo("#searchResults");
+							$("#searchResults").append(results);
+						}
+						
+								for (var i = 0; i <results.length; i++) {
+									var display;
+									display = "<a href='#mapView' onClick='calculateRoute("+ i +")'>" + results[i].name + "<br/>";
+									display = display + results[i].vicinity + "<br/>";
+									
+									if (!isNaN(results[i].rating)){
+										console.log("No Reviews!");
+									} else {
+										display = display + "No Reviews<br/></a>";
+										}
+										var sum = $("<li>").html(display);
+									$("#searchResults").append("<li>").html(sum);
+						}//end of loop
+							
+						$("#searchResults").listview("refresh"); 
+					}//end of google maps places
+					else {
+						var results = $("<li>").html("No Results Found! Please try a different search setting");
+						$("#searchResults").append(results);
+					}
+			}//end of build places
+			
+			function initMap(){
+				google.maps.visualRefresh = true;
+				directionsService = new google.maps.DirectionsService();
+				directionsDisplay = new google.maps.DirectionsRenderer();
+				
+				
+				var mapOptions = {
+					zoom: 14,
+					mapTypeId: google.maps.MapTypeId.ROADMAP,
+					center: currentLocation
+				};
+				map = new google.maps.Map(document.getElementById('mapDiv'), mapOptions);
+				directionsDisplay.setMap(map);
+			}// end init map
+			
+			
+			
+			//start calculateroute
+			function calculateRoute(index){
+				
+				faciLocation = searchResults[index].geometry.location;
+				var faciName = searchResults[index].name;
+				
+				var request = {
+					origin: currentLocation,
+					destination: faciLocation,
+					travelMode: google.maps.DirectionsTravelMode.DRIVING
+				};
+				
+				directionsService.route(request, function(response, status) {
+       				if (status == google.maps.DirectionsStatus.OK) {
+	        			 directionsDisplay.setDirections(response);
+	        			 $("#directions").children().remove();
+	        			 directionsDisplay.setPanel(document.getElementById('directions'));
+        			 }
+     			 });//end directionsService
+        
+        			 var bounds = new google.maps.LatLngBounds();
+        			 	bounds.extend(currentLocation);
+        			 	bounds.extend(faciLocation);
+        			 	map.fitBounds(bounds);
+        			 	google.maps.event.trigger(map, "resize");
+			}//end calculateroute
+
+
+			
+			//start locationerror
+			function locationError(error) {
+				switch (error.code) {
+
+					case error.PERMISSION_DENIED:
+						alert("Geolocation access denied or disabled. To enable geolocation "+ 
+						"on your iPhone, go to Settings>General>Location Services");
+						break;
+					case error.POSITION_UNAVAILABLE:
+						alert("Current location not available");
+						break;
+					case error.TIMEOUT:
+						alert("Timeout");
+						break;
+					default:
+						alert("unknown error");
+						break;
+				}//end switch
+			}//end locationError
+
+
+			function updateDist(value) {
+
+			$("#distVal").html( ""+value + " meters");
+			}
+			
+			
+			//start map reset
+			function mapReset() {
+				var center = map.getCenter();
+				google.maps.event.trigger(map, "resize");
+				map.setCenter(center);
+				
+				var bounds = new google.maps.LatLngBounds();
+				bounds.extend(currentLocation);
+				bounds.extend(faciLocation);
+				map.fitBounds(bounds);
+			}//end of map reset
+			$(document).on("pagecreate", "#homeView", init);
+			$(document).on("pageshow", "#mapView", mapReset);//refresh google maps
+
+
+
+			//Lab5 starts here 
+			$(document).on("pagecreate","#videos", function(){
+				var request = "part=snippet";
+				request = request +"&q=wildlife+vehicle+collision";
+				request = request + "&maxResults=10&order=viewCount&type=video";
+				request = request + "&key=AIzaSyCpNDlifEE1xCPWbOagBD5thswl2ldxEDc";
+				$.ajax({
+					url: "https://www.googleapis.com/youtube/v3/search",
+					data : request,
+					dataType : "jsonp",
+					success: listVideos
+				});
+				
+			});
+			
+			function listVideos(data){
+				console.log(data);
+				var blockType = ((i % 2)===1) ? 'b':'a';				
+				var output='';
+				for (var i = 0; i < data.items.length; i++) {
+					var title = data.items[i].snippet.title;
+					var thumbnail = data.items[i].snippet.thumbnails.default.url;
+					var description = data.items[i].snippet.description;
+					var id = data.items[i].snippet.descripition;
+					var blockType = ((i % 2)===1) ? 'b':'a';
+					output += '<div class="ui-block-' + blockType + '">';
+					output += '<a href="#videoPlayer" onclick="playVideo(\''+ id +'\',\''+ escape(description) + '\')">';
+					output += '<h3>' + title + '</h3>';
+					output += '<img src="' + thumbnail + '"alt="' + title + '" />';
+					output +="</a>";
+					output +="</div>";
+				}//end for loop
+				$('#videoList').html(output);
+			}// end listVideos function
+			
+			function playVideo(id, title, description){
+				var output='<iframe src="http://www.youtube.com/embed/'+ id +'?autoplay=1" frameborder="0"></iframe>';
+				output += '<h3>' + title + '</h3>';
+				output += '<p>' + unescape(description) + '</p>';
+				$('#myPlayer').html(output);
+			}//end playVideo function
+			
+			$(document).on("pagecreate","#photos",function(){
+				var request = "format=json";
+				request = request + "&tags=animal+wildlife";
+				$.ajax({
+					url: "http://api.flickr.com/services/feeds/photos_public.gne",
+					data : request,
+					dataType: "jsonp",
+				});
+			});//end flickr pagecreate
+			
+			function jsonFlickrFeed(data){
+				console.log(data);
+				var output = '';
+				for (var i = 0; i<data.items.length; i++){
+					var title = data.items[i].title;
+					var dotPos = data.items[i].media.m.lastIndexOf(".");//Find the index of the "." before jpg
+					var link = data.items[i].media.m.substring(0, dotPos-2);//Subtract 2 to strip the "suffix"
+					var blockType = ((i%3)==2) ? 'c': ((i%3)===1) ? 'b': 'a';
+					output += '<div class="ui-block-' + blockType + '">';
+					output += '<a href="#showPhoto" onclick="showPhoto(\''+ link +'\',\''+ title + '\')">';
+					output += '<img src="' + link + '_q.jpg" alt="' + title + '" />';
+					output += "</a>";
+					output += "</div>";
+				}//Loop through each photo
+				$('#photoList').html(output);
+			}//end jsonFlickrFeed
+			
+			function showPhoto(link,title){
+				var output="#myPhoto";
+				output += '<a href="#photos">'+ title + '</a>';
+				output += '<img src="' + link + '_b.jpg" alt="' + title +'" />';
+				$('#myPhoto').html(output);
+			}//end showPhoto
+	
+			//Lab6 starts here 
+			$(document).on("pagecreate","#report",function(){
+				$("#submit").on("click",function(e){
+					var formData = $("#insertForm").serialize();
+					$.ajax({
+						type:"POST",
+						url: "insert_collision.php",
+						cache:false,
+						data: formData,
+						success: onSuccess
+					});
+					
+					e.preventDefault();
+				});
+				
+				$("#btCollision").on("click",function(e){
+					$.ajax({
+						url: "list_collision.php",
+						cache: false,
+						success: processCollisionList
+					});
+				});	
+			});
+			
+			function onSuccess(data,status){
+				$("#message").fadeIn(2000);
+				$("#message").css("background-color","#fff9b1");
+				$("#message").html(data);
+				$("#message").fadeOut(5000);
+			}//end onSuccess
+			
+			function processCollisionList(data, status){
+				$("#listCollision").html(data);
+				$("#listCollision").listview("refresh");
+			}// end processCollisionList
+</script>
+</head>
+
+
+<body>
+	<div id="homeView" data-role="page" data-title="Wildlife Vehicle Collisions" data-theme="a"  >
+		<div data-role="header" data-position="fixed" id="header1" >
+			<h1>WVC</h1>
+		</div>
+		<div data-role="content" >
+			<img src="images/wildlife-3.jpg" alt="WVC Management" />
+			<div data-role= "controlgroup" >
+				<a href="#findView" class="ui-btn ui-icon-search ui-btn-icon-left">Find Nearby</a>
+				<a href="#report" class="ui-btn ui-icon-eye ui-btn-icon-left">Report Collision</a>
+				<a href="#videos" class="ui-btn ui-icon-video ui-btn-icon-left">Videos</a>
+				<a href="#photos" class="ui-btn ui-icon-grid ui-btn-icon-left">Photos</a>
+			</div>
+			<div data-role="footer" id="footer">
+				<p>&copy; Copyright by Mohammed Kemal</p>
+			</div><!--footer End-->			
+		</div>
+		
+	</div>
+	
+	<!-- page 2 -->
+	<div id="findView" data-role="page" data-theme="a" >
+		<div data-role="header" data-position="fixed" id="header1">
+			<a href="#homeView" class="ui-btn ui-icon-home ui-btn-icon-notext ui-shadow ui-corner-all">Home</a>
+			<h1>What's Nearby</h1>
+			<a href="#settingsView" class="ui-btn ui-icon-gear ui-btn-icon-notext ui-shadow ui-corner-all">Settings</a>
+		</div>
+		<div data-role="content" >
+			<ul data-role="listView" data-inset="true" >
+				<li id="policeItem"><a href="#resultsView" class="ui-btn ui-btn-icon-right ui-icon-arrow-r">Police Department</a></li>
+				<li id="fsItem"><a href="#resultsView" class="ui-btn ui-btn-icon-right ui-icon-arrow-r">Fire Stations</a></li>
+				<li id="tdItem"><a href="#resultsView" class="ui-btn ui-btn-icon-right ui-icon-arrow-r">Transportaion Departments</a></li>
+				<li id="ahItem"><a href="#resultsView" class="ui-btn ui-btn-icon-right ui-icon-arrow-r">Animal Hospitals</a></li>	
+				<li id="hospitalItem"><a href="#resultsView" class="ui-btn ui-btn-icon-right ui-icon-arrow-r">Hospitals</a></li>
+			</ul>
+			<h2>Current Location</h2>
+			<div id="loc" ></div>
+			<div id="acc" ></div>
+		</div>		
+
+			
+		<div data-role="footer" data-position="fixed" id="footer1" >
+			
+			<div data-role="navbar" >
+				<ul>
+					<li><a href="#homeView" class="ui-btn ui-icon-home ui-btn-icon-top" >Home</a></li>
+					<li><a href="#findView" class="ui-btn ui-icon-home ui-btn-icon-top" >Find</a></li>
+					<li><a href="#report" class="ui-btn ui-icon-home ui-btn-icon-top" >Report</a></li>
+					<li><a href="#videos" class="ui-btn ui-icon-home ui-btn-icon-top" >Videos</a></li>
+					<li><a href="#photos" class="ui-btn ui-icon-home ui-btn-icon-top" >Photos</a></li>
+				</ul>
+			</div>
+		</div>
+		
+	</div>
+	
+	
+	<!--Part 3 -->
+	<div id="resultsView" data-role="page"   >
+		<div data-role="header" data-position="fixed" id="header">
+			<a href="#findView">Find</a>
+			<h1>Results</h1>
+		</div>
+
+		<div id="content"data-role="content" >					
+			<ul data-role="listview" id="searchResults" data-inset="true" >
+	
+			</ul>
+		</div>
+
+		<div data-role="footer" data-position="fixed" id="footer1" >
+			
+			<div data-role="navbar" >
+				<ul>
+					<li><a href="#homeView" class="ui-btn ui-icon-home ui-btn-icon-top" >Home</a></li>
+					<li><a href="#findView" class="ui-btn ui-icon-home ui-btn-icon-top" >Find</a></li>
+					<li><a href="#report" class="ui-btn ui-icon-home ui-btn-icon-top" >Report</a></li>
+					<li><a href="#videos" class="ui-btn ui-icon-home ui-btn-icon-top" >Videos</a></li>
+					<li><a href="#photos" class="ui-btn ui-icon-home ui-btn-icon-top" >Photos</a></li>
+				</ul>
+			</div>
+		</div>		
+			
+	</div>	
+	
+	<!-- Part 4 -->
+	<div id="mapView" data-role="page"  >
+		<div data-role="header"  data-position="fixed" id="header">
+			<a href="#resultsView"> Results</a>
+			<h1>Map View</h1>
+			<a href="#directionsView">Directions</a>
+		</div> <!-- header -->
+		<div data-role="content" id="mapContent" >
+			<div id="mapDiv"></div>
+		</div>
+
+		<div data-role="footer" data-position="fixed" id="footer1" >
+			
+			<div data-role="navbar" >
+				<ul>
+					<li><a href="#homeView" class="ui-btn ui-icon-home ui-btn-icon-top" >Home</a></li>
+					<li><a href="#findView" class="ui-btn ui-icon-home ui-btn-icon-top" >Find</a></li>
+					<li><a href="#report" class="ui-btn ui-icon-home ui-btn-icon-top" >Report</a></li>
+					<li><a href="#videos" class="ui-btn ui-icon-home ui-btn-icon-top" >Videos</a></li>
+					<li><a href="#photos" class="ui-btn ui-icon-home ui-btn-icon-top" >Photos</a></li>
+				</ul>
+			</div>
+		</div>		
+	</div>
+	
+	<!-- Part 5 page directions -->
+	
+	<div id="directionsView" data-role="page">
+		<div data-role="header" data-position="fixed" id="header1" >
+			<a href="#mapView">map</a>
+			<h1>Directions</h1>
+		</div>
+		<div data-role="content">
+			<div id="directions"></div>
+		</div>
+		
+		<div data-role="footer" data-position="fixed" id="footer1" >	
+			<div data-role="navbar" >
+				<ul>
+					<li><a href="#homeView" class="ui-btn ui-icon-home ui-btn-icon-top" >Home</a></li>
+					<li><a href="#findView" class="ui-btn ui-icon-home ui-btn-icon-top" >Find</a></li>
+					<li><a href="#report" class="ui-btn ui-icon-home ui-btn-icon-top" >Report</a></li>
+					<li><a href="#videos" class="ui-btn ui-icon-home ui-btn-icon-top" >Videos</a></li>
+					<li><a href="#photos" class="ui-btn ui-icon-home ui-btn-icon-top" >Photos</a></li>
+				</ul>
+			</div>
+		</div>		
+	</div>
+	
+	<!--Part 6 --> 
+	<div id="settingsView" data-role="page" >
+		<div data-role="header" data-position="fixed" id="header" >
+			<a href="#findView">Find</a>
+			<h1>Settingss</h1>
+		</div>
+		<div data-role="content">
+			<ul data-role="listview" data-inset="true">
+				<a href="#distView" class="ui-btn ui-btn-icon-right ui-icon-arrow-r" >Search Distance: <br/> <span id="distVal">3000 Meters</span></a>
+			</ul>
+		</div>
+		
+		<div data-role="footer" data-position="fixed" id="footer1" >
+			
+			<div data-role="navbar" >
+				<ul>
+					<li><a href="#homeView" class="ui-btn ui-icon-home ui-btn-icon-top" >Home</a></li>
+					<li><a href="#findView" class="ui-btn ui-icon-home ui-btn-icon-top" >Find</a></li>
+					<li><a href="#report" class="ui-btn ui-icon-home ui-btn-icon-top" >Report</a></li>
+					<li><a href="#videos" class="ui-btn ui-icon-home ui-btn-icon-top" >Videos</a></li>
+					<li><a href="#photos" class="ui-btn ui-icon-home ui-btn-icon-top" >Photos</a></li>
+				</ul>
+			</div>
+		</div>		
+	</div>	
+	
+	<!-- Part 7 --->
+	<div id="distView" data-role="page" >
+		<div data-role="header" data-position="fixed">
+			<a href="#settingsView">Settings</a>
+			<h1>Search Distance</h1>
+		</div><!--header End-->
+			
+		<div data-role="content">
+			<ul data-role="listview" data-inset="true">
+				<li onclick="updateDist(500)"><a href="#settingsView" class="ui-btn ui-btn-icon-right ui-icon-arrow-r  ">500 meters</a></li>
+				<li onclick="updateDist(1000)"><a href="#settingsView" class="ui-btn ui-btn-icon-right ui-icon-arrow-r ">1000 meters</a></li>
+				<li onclick="updateDist(3000)"><a href="#settingsView" class="ui-btn ui-btn-icon-right ui-icon-arrow-r ">3000 meters</a></li>
+				<li onclick="updateDist(5000)"><a href="#settingsView" class="ui-btn ui-btn-icon-right ui-icon-arrow-r ">5000 meters</a></li>
+				<li onclick="updateDist(10000)"><a href="#settingsView" class="ui-btn ui-btn-icon-right ui-icon-arrow-r">10000 meters</a></li>
+			</ul>
+		</div><!--End content -->
+		
+		<div data-role="footer" data-position="fixed" id="footer1" >
+			
+			<div data-role="navbar" >
+				<ul>
+					<li><a href="#homeView" class="ui-btn ui-icon-home ui-btn-icon-top" >Home</a></li>
+					<li><a href="#findView" class="ui-btn ui-icon-home ui-btn-icon-top" >Find</a></li>
+					<li><a href="#report" class="ui-btn ui-icon-home ui-btn-icon-top" >Report</a></li>
+					<li><a href="#videos" class="ui-btn ui-icon-home ui-btn-icon-top" >Videos</a></li>
+					<li><a href="#photos" class="ui-btn ui-icon-home ui-btn-icon-top" >Photos</a></li>
+				</ul>
+			</div>
+		</div>		
+	</div><!--distView End-->
+	
+	
+	
+	
+	<!-- Part 1 of Lab 5 --->
+		<div id="videos" data-role="page" >
+			
+			<div data-role="header" data-position="fixed" id="header1">
+				<a href="#homeView" class="ui-btn ui-icon-home ui-btn-icon-notext ui-shadow ui-corner-all ui-nodisc-icon">Home</a>
+				
+				<h1>Videos</h1>
+				
+				
+			</div><!--End header-->
+			
+			<div data-role="content" >
+				<div class="ui-grid-a" id="videoList">
+					
+				</div><!--grid-->
+				
+			</div><!--End Content-->
+			
+			<div data-role="footer" data-position="fixed" id="footer1">
+				<div data-role="navbar">
+					<ul>
+						<li><a href="#homeView" class="ui-btn ui-icon-home ui-btn-icon-top ui-nodisc-icon">Home</a></li>
+						<li><a href="#findView" class="ui-btn ui-icon-search ui-btn-icon-top ui-nodisc-icon">Find</a></li>
+						<li><a href="#report" class="ui-btn ui-icon-wvc_blog ui-btn-icon-top ui-nodisc-icon">Report</a></li>
+						<li><a href="#videos" class="ui-btn ui-icon-wvc_video ui-btn-icon-top ui-nodisc-icon">Videos</a></li>
+						<li><a href="#photos" class="ui-btn ui-icon-wvc_photo ui-btn-icon-top ui-nodisc-icon">Photos</a></li>		
+					</ul>
+					
+				</div><!-- End Navbar-->
+			</div><!--End Footer-->
+			
+		</div><!--End video-->
+
+		<div id="videoPlayer" data-role="page" >
+			<div data-role="header" data-position="fixed" data-add-back-btn="true">
+				<a href="#videos" class="ui-btn ui-btn-icon-left ui-icon-back ui-alt-icon ui-nodisc-icon">Go Back</a>
+				<h1>Video Player</h1>
+				
+			</div><!--header End-->
+			
+			<div data-role="content">
+				<div id="myPlayer"></div>
+			</div><!--End content -->
+
+			<div data-role="footer" data-position="fixed" id="footer1">
+				<div data-role="navbar">
+					<ul>
+						<li><a href="#homeView" class="ui-btn ui-icon-home ui-btn-icon-top ui-nodisc-icon">Home</a></li>
+						<li><a href="#findView" class="ui-btn ui-icon-search ui-btn-icon-top ui-nodisc-icon">Find</a></li>
+						<li><a href="#report" class="ui-btn ui-icon-wvc_blog ui-btn-icon-top ui-nodisc-icon">Report</a></li>
+						<li><a href="#videos" class="ui-btn ui-icon-wvc_video ui-btn-icon-top ui-nodisc-icon">Videos</a></li>
+						<li><a href="#photos" class="ui-btn ui-icon-wvc_photo ui-btn-icon-top ui-nodisc-icon">Photos</a></li>		
+					</ul>	
+				</div><!-- End Navbar-->
+			</div><!--End Footer-->			
+		</div><!--End Navbar-->
+
+		
+		<div id="photos" data-role="page" >
+			
+			<div data-role="header" data-position="fixed" id="header1">
+				<a href="#homeView"  class="ui-btn ui-icon-home ui-btn-icon-notext ui-shadow ui-corner-all ui-nodisc-icon">Home</a>
+				
+				<h1>Photos</h1>
+				
+				
+			</div><!--End header-->
+			
+			<div data-role="content" >
+				<div class="ui-grid-b" id="photoList">
+					
+				</div><!--grid-->
+				
+			</div><!--End Content-->
+			
+			<div data-role="footer" data-position="fixed" id="footer1">
+				<div data-role="navbar">
+					<ul>
+						<li><a href="#homeView" class="ui-btn ui-icon-home ui-btn-icon-top ui-nodisc-icon">Home</a></li>
+						<li><a href="#findView" class="ui-btn ui-icon-search ui-btn-icon-top ui-nodisc-icon">Find</a></li>
+						<li><a href="#report" class="ui-btn ui-icon-wvc_blog ui-btn-icon-top ui-nodisc-icon">Report</a></li>
+						<li><a href="#videos" class="ui-btn ui-icon-wvc_video ui-btn-icon-top ui-nodisc-icon">Videos</a></li>
+						<li><a href="#photos" class="ui-btn ui-icon-wvc_photo ui-btn-icon-top ui-nodisc-icon">Photos</a></li>		
+					</ul>	
+				</div><!-- End Navbar-->
+			</div><!--End Footer-->
+		</div><!--End Photo -->
+		
+		<div id="showPhoto" data-role="page" >
+			<div data-role="header" data-position="fixed" data-add-back-btn="true">
+				<a href="#photos" class="ui-btn ui-btn-icon-left ui-icon-back ui-alt-icon ui-nodisc-icon">Go Back</a>
+				<h1>Photo View</h1>
+			</div><!--header End-->
+			
+			<div data-role="content">
+				<div id="myPhoto"></div>
+			</div><!--End content -->			
+		</div><!--End ShowPhoto  End-->
+		
+		
+
+		
+		<!-- Lab 6 starts here -->
+			
+			
+			<div id="report" data-role="page">
+				<div data-role="header" data-position="fixed" id="header1">
+					<a href="#homeView" class="ui-btn ui-icon-home ui-btn-icon-home ui-shadow ui-corner-all">Home Page</a>
+					<h1>Report Collision</h1>
+					<a href="#collisionView" id="btCollision" class="ui-btn ui-icon-info ui-btn-icon-info ui-shadow ui-corner-all"> Collision List</a>
+				</div>
+
+				<div data-role="content">
+					<form id="insertForm" method="post">
+						<label for="species"><b>Species:</b></label>
+						<select id="species" name="species">
+							<option value="Bear">Bear</option>
+							<option value="Cat">Cat</option>
+							<option value="Coyote">Coyote</option>
+							<option value="Deer">Deer</option>
+							<option value="Fox">Fox</option>
+							<option value="Raccoon">Raccoon</option>
+							<option value="Skunk">Skunk</option>
+							<option value="Wolf">Wolf</option>
+							<option value="Other">Other</option>
+						</select>	
+										
+						<label for="txtSpecies" class="ui-hidden-accessible"></label>
+						<input type="text" id="txtSpecies" value="" placeholder="Type in a new species"/>
+						
+						<div class="ui-field-contain">
+							<fieldset data-role="controlgroup">
+								<legend><b>Gender:</b></legend>
+								<label for="rbMale">Male</label>
+								<input type="radio" name="rbGender" id="rbMale" value="Male" checked="checked"/>
+								<label for="rbFemale">Female</label>
+								<input type="radio" name="rbGender" id="rbFemale" value="Female" />
+								<label for="rbUnknown">Unknown</label>
+								<input type="radio" name="rbGender" id="rbUnknown" value="Unknown"/>
+							</fieldset>
+						</div>
+							
+						<div class="ui-field-contain">
+							<fieldset data-role="controlgroup">
+								<legend><b>Age Class:</b></legend>
+								<label for="rb1">Juvenile</label>
+								<input type="radio" name="rbAge" id="rb1" value="Juvenile" checked="checked"/>
+								<label for="rb2">Adult</label>
+								<input type="radio" name="rbAge" id="rb2" value="Adult" />
+								<label for="rb3">Unknown</label>
+								<input type="radio" name="rbAge" id="rb3" value="Unknown"/>
+							</fieldset>
+						</div>
+							
+						<div class="ui-field-contain">
+							<label for="rdate"><b>Report Date:</b></label>
+							<input type="date" name="rdate" id="rdate" placeholder="YYYY-MM-DD"/>		
+						</div>
+						
+						<div class="ui-field-contain">
+							<label for="lat"><b>Latitude:</b></label>
+							<input type="number" name="lat" id="lat" placeholder="Enter the Latitude" min="-90" max="90" step="0.000001" />
+						</div>
+						
+						<div class="ui-field-contain">
+							<label for="lng"><b>Longitude:</b></label>
+							<input type="number" name="lng" id="lng" placeholder="Enter the Longitude" min="-90" max="90" step="0.000001" />
+						</div>
+						
+						<div class="ui-field-contain">
+							<label for="address"><b>Address:</b></label>
+							<input type="text" name="address" id="address" placeholder="Enter the Address" />
+						</div>
+						
+						<fieldset class="ui-grid-a">
+							<div class="ui-block-a"><a href="#homeView" id="cancel" data-role="button">Cancel</a></div>
+							<div class="ui-block-b"><button id="submit" type="submit">Submit</button></div>
+						</fieldset>					
+						<h3 id="message"></h3>
+					</form>	
+			</div>
+
+			</div>
+			
+			
+		<div id="collisionView" data-role="page" data-theme="a">
+			<div data-role="header" data-position="fixed" data-add-back-btn="true">
+				<a href="#report" class="ui-btn ui-btn-icon-left ui-icon-wvc_blog ui-alt-icon ui-nodisc-icon"></a>
+				<h1>Collision List</h1>
+				
+			</div><!--header End-->
+			
+			<div data-role="content">
+				<ul id="listCollision" data-role="listview" data-inset="true">
+					
+				</ul>
+			</div><!--content End-->
+			</div>		
+						
+	
+</body>
+</html>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Placemark>
+ <name>Addis Ababa, Ethiopia</name>
+ <description>Addis Ababa, Ethiopia’s sprawling capital in the highlands 
+ bordering the Great Rift Valley, is the country’s commercial and cultural hub.
+  Its National Museum exhibits prehistoric fossils, including replicas of the famous
+   early hominid known as Lucy, along with Ethiopian art and traditional crafts. 
+   The burial place of the 20th-century emperor Haile Selassie, copper-domed Holy Trinity Cathedral, 
+   is a neo-baroque architectural landmark.</description>
+ <Point>
+ <coordinates>38.7400,9.0300,0</coordinates>
+ </Point>
+</Placemark>
+</kml>

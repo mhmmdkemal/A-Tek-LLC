@@ -1,0 +1,33 @@
+html {height:100%}
+body {height:100%;margin:0;padding:0}
+
+#header {
+			font-family: "Times New Roman", Georgia, Serif;
+			color: blue;
+			height: 200px;
+    		width: 80%;
+    		margin-left: auto;
+    		margin-right: auto;
+    		background-color: #d0e4fe;
+    	}
+    	
+#header h2{
+			font-family: "Times New Roman", Georgia, Serif;
+    		font-size: 20px;
+    		margin-left: auto;
+    		margin-right: auto;
+    		padding: 30px;
+}    	
+ #header p {
+    		font-family: "Times New Roman", Georgia, Serif;
+    		font-size: 20px;
+    		margin-left: auto;
+    		margin-right: auto;
+    		padding: 30px;
+		}
+#mapCanvas {	
+		margin-left: auto;
+    	margin-right: auto;
+    	height: 500px;
+		width: 80%;	
+}

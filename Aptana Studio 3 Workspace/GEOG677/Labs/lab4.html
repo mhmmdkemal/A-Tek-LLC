@@ -1,0 +1,248 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Navigation toolbar</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://js.arcgis.com/3.15/esri/css/esri.css">
+	<script src="https://js.arcgis.com/3.15/"></script>
+
+	<link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+    <script src="http://serverapi.arcgisonline.com/jsapi/gmaps/?v=1.6" type="text/javascript" ></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>    
+    <link rel="stylesheet" href="http://js.arcgis.com/3.12/esri/css/esri.css">
+    
+    <style>
+      @import "http://js.arcgis.com/3.12/dijit/themes/claro/claro.css";
+
+      .zoominIcon {
+        background-image: url(images/nav_zoomin.png);
+        width: 16px;
+        height: 16px;
+      }
+
+      .zoomoutIcon {
+        background-image: url(images/nav_zoomout.png);
+        width: 16px;
+        height: 16px;
+      }
+
+      .zoomfullextIcon {
+        background-image: url(images/nav_fullextent.png);
+        width: 16px;
+        height: 16px;
+      }
+
+      .zoomprevIcon {
+        background-image: url(images/nav_previous.png);
+        width: 16px;
+        height: 16px;
+      }
+
+      .zoomnextIcon {
+        background-image: url(images/nav_next.png);
+        width: 16px;
+        height: 16px;
+      }
+
+      .panIcon {
+        background-image: url(images/nav_pan.png);
+        width: 16px;
+        height: 16px;
+      }
+
+      .deactivateIcon {
+        background-image: url(images/nav_decline.png);
+        width: 16px;
+        height: 16px;
+      }
+    </style>
+    
+    <script src="http://js.arcgis.com/3.12/"></script>
+    <script>
+      var map;
+
+      require([
+        "esri/map",
+        "esri/toolbars/navigation",
+        "dojo/on",
+        "dojo/parser",
+        "dijit/registry",
+        "dijit/Toolbar",
+        "dijit/form/Button",
+        "dojo/domReady!"
+      ],
+        function (Map, Navigation, on, parser, registry) {
+
+          parser.parse();
+
+          var navToolbar;
+
+          map = new Map("map", {
+            basemap: "streets",
+            center: [-76.874425, 38.794003],
+            zoom: 8
+          });
+          //Add the operational layer
+          var dynamicMapServiceLayer = new esri.layers.ArcGISDynamicMapServiceLayer("http://129.2.24.163:6080/arcgis/rest/services/GEOG677_W2016/mkemal1_MD_PG_bnd/MapServer", {"opacity":0.9});
+          map.addLayer(dynamicMapServiceLayer);
+
+          navToolbar = new Navigation(map);
+          on(navToolbar, "onExtentHistoryChange", extentHistoryChangeHandler);
+
+          registry.byId("zoomin").on("click", function () {
+            navToolbar.activate(Navigation.ZOOM_IN);
+          });
+
+          registry.byId("zoomout").on("click", function () {
+            navToolbar.activate(Navigation.ZOOM_OUT);
+          });
+
+          registry.byId("zoomfullext").on("click", function () {
+            navToolbar.zoomToFullExtent();
+          });
+
+          registry.byId("zoomprev").on("click", function () {
+            navToolbar.zoomToPrevExtent();
+          });
+
+          registry.byId("zoomnext").on("click", function () {
+            navToolbar.zoomToNextExtent();
+          });
+
+          registry.byId("pan").on("click", function () {
+            navToolbar.activate(Navigation.PAN);
+          });
+
+          registry.byId("deactivate").on("click", function () {
+            navToolbar.deactivate();
+          });
+
+          function extentHistoryChangeHandler () {
+            registry.byId("zoomprev").disabled = navToolbar.isFirstExtent();
+            registry.byId("zoomnext").disabled = navToolbar.isLastExtent();
+          }
+        });
+    </script>
+    <link rel='stylesheet' href="custom.css">
+    <style>
+      html,body{
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      
+      }
+      #gmap {
+    	margin-left: auto;
+    	margin-right: auto;   	
+        width: auto; 
+        height: 400px; 
+        border:#200 solid thin;
+        position: relative;
+      }
+      #map {
+    	margin-left: auto;
+    	margin-right: auto;   	
+        width: auto; 
+        height: 400px; 
+        border:#200 solid thin;
+        position: relative;
+      }      
+    </style>
+	<style>.embed-container {
+		position: relative; 
+		height: 0; max-width: 100%;}
+		.embed-container iframe, 
+		.embed-container object, 
+		.embed-container iframe{
+			position: absolute; 
+			top: 0; 
+			left: 0; 
+			width: 100%; 
+			height: 400px;
+		} 
+		small{
+			position: absolute; 
+			z-index: 40; 
+			bottom: 0; 
+			margin-bottom: -15px;
+		}
+	</style>
+  </head>
+
+  <body class="claro">
+	<div class="container">
+		<header class="row">
+			</header>
+			<div class="row"> <!-- navbar -->
+				<nav class="navbar navbar-default">
+					<div class="container-fluid">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"> </span>
+								<span class="icon-bar"> </span>
+								<span class="icon-bar"> </span>
+							</button>
+							<a class="navbar-brand" href="index.html">Internet GIS</a>
+						</div>
+						
+						<div>
+						
+						<div class="collapse navbar-collapse" id="navbar">
+							<ul class="nav navbar-nav navbar-right">
+								<li><a href="index.html">Home</a></li>
+								
+								<li> <a href="courses.html">Courses</a></li>	
+															
+								<li class="dropdown">
+									<a class="dropdown-toggle" data-toggle="dropdown" href="#">Labs
+										<span class="carat"> </span></a>
+										<ul class="dropdown-menu">
+											<li> <a href="lab1.html">Lab 1</a></li>
+											<li><a href="lab2.html">Lab 2</a></li>
+											<li><a href="lab3.html">Lab 3</a></li>
+											<li><a href="lab4.html">Lab 4</a></li>		
+											<li><a href="lab5.html">Lab 5</a></li>											
+										</ul>
+								</li>
+								
+								<li><a href="contact.html">Contact</a></li>
+							</ul>
+							</div>
+						</div>
+					</div><!-- end container-fluid -->
+				</nav>	
+ 			</div>
+
+		<div class="jumbotron" style= "height: 160%; width: 100%">			
+			<div id="content" style="font-size:130%;">	
+				<h3 align="center">Cached Map</h3>
+			    <div id="navToolbar" align="center" data-dojo-type="dijit/Toolbar">
+			      <div data-dojo-type="dijit/form/Button" id="zoomin"  data-dojo-props="iconClass:'zoominIcon'">Zoom In</div>
+			      <div data-dojo-type="dijit/form/Button" id="zoomout" data-dojo-props="iconClass:'zoomoutIcon'">Zoom Out</div>
+			      <div data-dojo-type="dijit/form/Button" id="zoomfullext" data-dojo-props="iconClass:'zoomfullextIcon'">Full Extent</div>
+			      <div data-dojo-type="dijit/form/Button" id="zoomprev" data-dojo-props="iconClass:'zoomprevIcon'">Prev Extent</div>
+			      <div data-dojo-type="dijit/form/Button" id="zoomnext" data-dojo-props="iconClass:'zoomnextIcon'">Next Extent</div>
+			      <div data-dojo-type="dijit/form/Button" id="pan" data-dojo-props="iconClass:'panIcon'">Pan</div>
+			      <div data-dojo-type="dijit/form/Button" id="deactivate" data-dojo-props="iconClass:'deactivateIcon'">Deactivate</div>
+			    </div>				
+				<div id="map">
+						
+						
+				</div>	
+				<h3 align="center">Esri Map: Online</h3>
+				<div id="gmap" class="embed-container">
+					<iframe width="500" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" title="Lab4 MD_PG_bnd" 
+					src="https://mkemal1.maps.arcgis.com/apps/Embed/index.html?webmap=3ff132d6c04d4352a5edc966ddfda9db&amp;extent=-79.7342,36.9543,-74.3509,40.6057&amp;zoom=true&amp;scale=true&amp;search=true&amp;searchextent=true&amp;details=true&amp;legend=true&amp;active_panel=details&amp;disable_scroll=true&amp;theme=light"></iframe></div>
+			</div>
+		</div>
+	</div>   
+
+
+  </body>
+</html>

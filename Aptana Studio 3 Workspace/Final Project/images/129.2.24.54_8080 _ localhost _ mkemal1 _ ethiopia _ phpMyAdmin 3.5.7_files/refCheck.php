@@ -1,0 +1,1 @@
+admVsldr_obj.adm_vsld_refCheck({"res":1,"exclude":"&sxch=1","ref":"http:\/\/129.2.24.54:8080\/phpMyAdmin\/index.php?db=mkemal1&token=754333f38e1290a8639a9d10bda2086c","url":"129.2.24.54"});

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<servers>
+<server type="com.aptana.webserver.simple">
+<name>wampserver</name>
+<baseURL>http://localhost</baseURL>
+<documentRoot>file:/Applications/MAMP/htdocs</documentRoot>
+</server>
+<server type="com.aptana.webserver.simple">
+<name>wampserver</name>
+<baseURL>http://localhost</baseURL>
+<documentRoot>file:/Applications/MAMP/htdocs/Lab5</documentRoot>
+</server>
+</servers>

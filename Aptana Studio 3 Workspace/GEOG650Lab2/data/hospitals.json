@@ -1,0 +1,41 @@
+{
+	"Alaska" : [{"Name": " ALA Hospitals", "ImageUrl":"images/type0_Maryland_0.jpg", "Content": "data/facility1.jason"}
+			],
+	"Arizona" : [{"Name": " AZ1 Hospitals", "ImageUrl":"images/type0_Maryland_0.jpg", "Content": "data/facility2.jason"},
+				{"Name": " AZ2 Hospitals", "ImageUrl": "images/type0_Maryland_1.jpg", "Content": "data/facility3.jason"}
+			],
+	"Arkansas" : [{"Name": "AK1 Hospitals", "ImageUrl":"images/type0_Maryland_0.jpg", "Content": "data/facility4.jason"}, 
+				{"Name": " AK2 Hospitals", "ImageUrl":"images/type0_Maryland_1.jpg", "Content": "data/facility5.jason"},
+				{"Name": " AK3 Hospitals", "ImageUrl":"images/type0_Maryland_2.jpg", "Content": "data/facility6.jason"}
+			],
+	"California" : [{"Name": " CA1 Hospitals", "ImageUrl":"images/type0_Maryland_0.jpg", "Content": "data/facility7.jason"},
+				{"Name": " CA2 Hospitals", "ImageUrl":"images/type0_Maryland_1.jpg", "Content": "data/facility8.jason"}
+			],
+	"Connecticut" : [{"Name": " CO1 Hospitals", "ImageUrl":"images/type0_Maryland_0.jpg", "Content": "data/facility9.jason"}
+			],
+	"Florida" : [{"Name": " FL1 Hospitals", "ImageUrl":"images/type0_Maryland_0.jpg", "Content": "data/facility10.jason"}
+			],
+	"Georgia" : [{"Name": " GA1 Hospitals", "ImageUrl":"images/type0_Maryland_0.jpg", "Content": "data/facility11.jason"}
+			],
+	"Hawaii" : [{"Name": " HA1 Hospitals", "ImageUrl":"images/type0_Maryland_0.jpg", "Content": "data/facility12.jason"},
+				{"Name": " HA2 Hospitals", "ImageUrl":"images/type0_Maryland_1.jpg", "Content": "data/facility13.jason"}
+			],
+	"Idaho" : [{"Name": " ID1 Hospitals", "ImageUrl":"images/type0_Maryland_0.jpg", "Content": "data/facility14.jason"},
+			{"Name": " ID2 Hospitals", "ImageUrl":"images/type0_Maryland_1.jpg", "Content": "data/facility15.jason"}
+			],
+	"Illinois" : [{"Name": " IL1 Hospitals", "ImageUrl":"images/type0_Maryland_0.jpg", "Content": "data/facility16.jason"},
+				{"Name": " IL2 Hospitals", "ImageUrl":"images/type0_Maryland_1.jpg", "Content": "data/facility17.jason"}
+				],
+	"Indiana" : [{"Name": " IN1 Hospitals", "ImageUrl":"images/type0_Maryland_0.jpg", "Content": "data/facility18.jason"}
+			],
+	"Maryland" : [{"Name": "Baltimore VA Medical Center", "ImageUrl":"images/type0_Maryland_0.jpg", "Content": "data/facility19.jason"},
+				{"Name": "Loch Raven VA Rehabilitation Center", "ImageUrl":"images/type0_Maryland_1.jpg", "Content": "data/facility20.jason"},
+				{"Name": "Perry Point VA Medical Center", "ImageUrl":"images/type0_Maryland_2.jpg", "Content": "data/facility21.jason"}
+			],
+	"Virginia" : [{"Name": " VA1 Hospitals", "ImageUrl":"images/type0_Maryland_0.jpg", "Content": "data/facility22.jason"},
+				{"Name": " VA2 Hospitals", "ImageUrl":"images/type0_Maryland_1.jpg", "Content": "data/facility123.jason"}, 
+				{"Name": " VA3 Hospitals", "ImageUrl":"images/type0_Maryland_2.jpg", "Content": "data/facility24.jason"}
+			]
+}
+
+
